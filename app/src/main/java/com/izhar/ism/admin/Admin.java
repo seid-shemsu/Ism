@@ -84,7 +84,7 @@ public class Admin extends AppCompatActivity {
 
     private void setValues() {
         DatabaseReference declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference request = FirebaseDatabase.getInstance().getReference().child("ordered").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference request = FirebaseDatabase.getInstance().getReference().child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         DatabaseReference approved = FirebaseDatabase.getInstance().getReference().child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         request.addValueEventListener(new ValueEventListener() {
             @Override

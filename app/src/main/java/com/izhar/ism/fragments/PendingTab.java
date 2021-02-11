@@ -62,6 +62,7 @@ public class PendingTab extends Fragment {
     private void getData() {
         SharedPreferences u_name = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         String name = u_name.getString("name", "default");
+        String user = getContext().getSharedPreferences("user", Context.MODE_PRIVATE).getString("user", "");
         if (user.equalsIgnoreCase("waiter")){
             data = FirebaseDatabase.getInstance().getReference().child("waiter").child("pending").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
         }

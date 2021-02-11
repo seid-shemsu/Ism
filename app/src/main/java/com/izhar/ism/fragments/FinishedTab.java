@@ -65,7 +65,7 @@ public class FinishedTab extends Fragment {
             data = FirebaseDatabase.getInstance().getReference().child("waiter").child("finished").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
         }
         else{
-            data = FirebaseDatabase.getInstance().getReference().child(user).child("finished").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+            data = FirebaseDatabase.getInstance().getReference().child(user).child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         }
         data.addValueEventListener(new ValueEventListener() {
             @Override

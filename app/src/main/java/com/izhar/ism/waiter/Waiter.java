@@ -76,9 +76,9 @@ public class Waiter extends AppCompatActivity {
     }
     private void setValues() {
 
-        final DatabaseReference request = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference approved = FirebaseDatabase.getInstance().getReference("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        final DatabaseReference request = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
+        DatabaseReference approved = FirebaseDatabase.getInstance().getReference("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference("waiter").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
         request.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -126,7 +126,7 @@ public class Waiter extends AppCompatActivity {
                     declined_text.setText(dataSnapshot.getChildrenCount() + "");
                     for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         dTotal += Integer.parseInt(snapshot.child("total").getValue().toString());
-                    declined_amount.setText(aTotal + " ETB");
+                    declined_amount.setText(dTotal + " ETB");
                 }
 
                 else

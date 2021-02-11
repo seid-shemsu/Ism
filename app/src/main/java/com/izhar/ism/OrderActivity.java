@@ -52,7 +52,7 @@ public class OrderActivity extends AppCompatActivity {
                 args.putSerializable("foods", (Serializable) orderAdapter.toCart);
                 intent.putExtra("bundle", args);
                 startActivity(intent);
-                //startActivity(new Intent(getContext(), CartActivity.class).putParcelableArrayListExtra("items", itemAdapter.toCart));
+                finish();
             }
         });
         number = findViewById(R.id.fab_number);
