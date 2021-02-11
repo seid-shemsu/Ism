@@ -23,11 +23,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Waiter extends AppCompatActivity {
-    TextView pending_text, finished_text, approved_amount, requested_amount;
+    TextView pending_text, finished_text, approved_amount, requested_amount, declined_text, declined_amount;
     TabLayout tab;
     ViewPager view;
     PagerAdapter pagerAdapter;
-    int rTotal = 0 , aTotal = 0;
+    int rTotal = 0 , aTotal = 0, dTotal = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +40,8 @@ public class Waiter extends AppCompatActivity {
         finished_text = findViewById(R.id.finished);
         approved_amount = findViewById(R.id.approved_amount);
         requested_amount = findViewById(R.id.requested_amount);
+        declined_text = findViewById(R.id.declined);
+        declined_amount = findViewById(R.id.declined_amount);
         new_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,8 +74,9 @@ public class Waiter extends AppCompatActivity {
     }
     private void setValues() {
 
-        final DatabaseReference request = FirebaseDatabase.getInstance().getReference("waiter").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        final DatabaseReference request = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         DatabaseReference approved = FirebaseDatabase.getInstance().getReference("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         request.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -106,6 +109,26 @@ public class Waiter extends AppCompatActivity {
 
                 else
                     finished_text.setText("0");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        declined.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+                    dTotal = 0;
+                    declined_text.setText(dataSnapshot.getChildrenCount() + "");
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        dTotal += Integer.parseInt(snapshot.child("total").getValue().toString());
+                    declined_amount.setText(aTotal + " ETB");
+                }
+
+                else
+                    declined_text.setText("0");
             }
 
             @Override

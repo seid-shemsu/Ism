@@ -34,7 +34,8 @@ public class AddFood extends AppCompatActivity {
                 add.setVisibility(View.GONE);
                 loader.setVisibility(View.VISIBLE);
                 DatabaseReference data = FirebaseDatabase.getInstance().getReference().child("items");
-                data.child(System.currentTimeMillis() + "").setValue(new Food(name.getText().toString(), price.getText().toString())).addOnSuccessListener(new OnSuccessListener<Void>() {
+                long id = System.currentTimeMillis();
+                data.child(id + "").setValue(new Food(name.getText().toString(), price.getText().toString(), id)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         startActivity(new Intent(AddFood.this, Admin.class));

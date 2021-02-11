@@ -7,7 +7,6 @@ import java.util.Map;
 public class Request {
     List<Food> foods;
     String id, total, dateTime, name;
-
     public Request() {
     }
 

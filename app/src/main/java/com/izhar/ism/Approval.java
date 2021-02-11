@@ -139,7 +139,6 @@ public class Approval extends AppCompatActivity {
                             pass.setValue(dataSnapshot.getValue());
                             req.removeValue();
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
 

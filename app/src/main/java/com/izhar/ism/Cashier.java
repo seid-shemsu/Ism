@@ -62,7 +62,6 @@ public class Cashier extends AppCompatActivity {
         });
     }
     private void setValues() {
-
         final DatabaseReference request = FirebaseDatabase.getInstance().getReference("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         DatabaseReference approved = FirebaseDatabase.getInstance().getReference("cashier").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         request.addValueEventListener(new ValueEventListener() {

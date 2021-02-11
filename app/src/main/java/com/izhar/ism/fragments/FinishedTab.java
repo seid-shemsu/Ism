@@ -60,7 +60,7 @@ public class FinishedTab extends Fragment {
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                requests.clear();
+                requests.clear();not_found.setVisibility(View.GONE);
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String id = snapshot.getKey();
                     String time = snapshot.child("dateTime").getValue().toString();

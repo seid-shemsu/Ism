@@ -51,7 +51,6 @@ public class CartActivity extends AppCompatActivity {
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 loader.setVisibility(View.VISIBLE);
                 order.setEnabled(false);
                 recycle.setEnabled(false);
@@ -65,10 +64,16 @@ public class CartActivity extends AppCompatActivity {
                 String name = user.getString("name", "username");
                 SimpleDateFormat sdp = new SimpleDateFormat("hh:mm");
                 String id = System.currentTimeMillis() + "";
+                //add to total orders
                 DatabaseReference ordered = FirebaseDatabase.getInstance().getReference().child("ordered").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
                 ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
+                //add to individual pending request
                 ordered = FirebaseDatabase.getInstance().getReference("waiter").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
                 ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
+                //add to individual total orders
+                ordered = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
+                ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
+                //send a request to cashier
                 DatabaseReference pending = FirebaseDatabase.getInstance().getReference().child("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
                 pending.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

@@ -37,6 +37,6 @@
         android:id="@+id/loader"
         android:visibility="invisible"
         android:layout_gravity="center"
-        app:lottie_rawRes="@raw/loading"
+        app:lottie_rawRes="@raw/circle_loader"
         android:layout_margin="10dp"/>
 </LinearLayout>
