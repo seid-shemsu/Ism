@@ -62,7 +62,7 @@ public class FinishedTab extends Fragment {
         SharedPreferences u_name = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         String name = u_name.getString("name", "default");
         if (user.equalsIgnoreCase("waiter")){
-            data = FirebaseDatabase.getInstance().getReference().child("waiter").child("finished").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
+            data = FirebaseDatabase.getInstance().getReference().child("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
         }
         else{
             data = FirebaseDatabase.getInstance().getReference().child(user).child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
@@ -74,7 +74,7 @@ public class FinishedTab extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String id = snapshot.getKey();
                     String time = snapshot.child("dateTime").getValue().toString();
-                    String price = snapshot.child("total").getValue().toString() + "\nETB";
+                    String price = snapshot.child("total").getValue().toString();
                     String name = snapshot.child("name").getValue().toString();
                     requests.add(new Request(id, price, time, name));
                 }

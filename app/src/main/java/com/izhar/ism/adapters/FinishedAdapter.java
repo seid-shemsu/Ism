@@ -35,8 +35,8 @@ public class FinishedAdapter extends RecyclerView.Adapter<FinishedAdapter.Holder
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Request request = requests.get(position);
-        holder.price.setText(request.getTotal());
-        holder.table.setText(request.getName());
+        holder.price.setText(request.getTotal() + "\nETB");
+        holder.name.setText(request.getName());
         holder.time.setText(request.getDateTime());
     }
 
@@ -46,10 +46,10 @@ public class FinishedAdapter extends RecyclerView.Adapter<FinishedAdapter.Holder
     }
 
     class Holder extends RecyclerView.ViewHolder {
-        TextView table, time, price;
+        TextView name, time, price;
         public Holder(@NonNull View itemView) {
             super(itemView);
-            table = itemView.findViewById(R.id.name);
+            name = itemView.findViewById(R.id.name);
             time = itemView.findViewById(R.id.time);
             price = itemView.findViewById(R.id.price);
         }

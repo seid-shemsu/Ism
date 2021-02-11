@@ -27,6 +27,7 @@ public class Admin extends AppCompatActivity {
     int rTotal = 0 , aTotal = 0, dTotal = 0;
     CardView manageCard, addFoodCard, foodListCard;
     TextView manageText, addFoodText, foodListText;
+    TextView a_, d_, r_;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,27 @@ public class Admin extends AppCompatActivity {
         requested_amount = findViewById(R.id.requested_amount);
         declined_text = findViewById(R.id.declined);
         declined_amount = findViewById(R.id.declined_amount);
+        a_ = findViewById(R.id.see_more_approved);
+        a_.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Admin.this, SeeMore.class).putExtra("type", "approved"));
+            }
+        });
+        d_ = findViewById(R.id.see_more_declined);
+        d_.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Admin.this, SeeMore.class).putExtra("type", "declined"));
+            }
+        });
+        r_ = findViewById(R.id.see_more_request);
+        r_.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Admin.this, SeeMore.class).putExtra("type", "requested"));
+            }
+        });
         setValues();
         manageCard = findViewById(R.id.manageCard);
         manageCard.setOnClickListener(new View.OnClickListener() {
