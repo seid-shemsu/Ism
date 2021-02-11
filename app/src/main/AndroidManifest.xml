@@ -15,10 +15,10 @@
         <activity android:name=".Approval" />
         <activity android:name=".OrderActivity" />
         <activity android:name=".CartActivity" />
-        <activity android:name=".Admin" />
-        <activity android:name=".Cooker" />
-        <activity android:name=".Waiter" />
-        <activity android:name=".Cashier" />
+        <activity android:name=".admin.Admin" />
+        <activity android:name=".cooker.Cooker" />
+        <activity android:name=".waiter.Waiter" />
+        <activity android:name=".cashier.Cashier" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

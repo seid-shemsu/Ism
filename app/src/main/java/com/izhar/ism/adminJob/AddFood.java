@@ -12,8 +12,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.izhar.ism.Admin;
-import com.izhar.ism.MainActivity;
+import com.izhar.ism.admin.Admin;
 import com.izhar.ism.R;
 import com.izhar.ism.objects.Food;
 

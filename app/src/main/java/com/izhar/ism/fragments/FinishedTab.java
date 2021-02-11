@@ -1,5 +1,7 @@
 package com.izhar.ism.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,8 +57,16 @@ public class FinishedTab extends Fragment {
         getData();
         return view;
     }
+    DatabaseReference data;
     private void getData() {
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference().child(user).child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        SharedPreferences u_name = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        String name = u_name.getString("name", "default");
+        if (user.equalsIgnoreCase("waiter")){
+            data = FirebaseDatabase.getInstance().getReference().child("waiter").child("finished").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
+        }
+        else{
+            data = FirebaseDatabase.getInstance().getReference().child(user).child("finished").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        }
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

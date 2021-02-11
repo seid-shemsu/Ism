@@ -1,4 +1,4 @@
-package com.izhar.ism;
+package com.izhar.ism.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.izhar.ism.R;
 import com.izhar.ism.adminJob.AddFood;
 import com.izhar.ism.adminJob.FoodList;
 import com.izhar.ism.adminJob.ManageUser;
