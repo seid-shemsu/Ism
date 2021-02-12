@@ -1,7 +1,12 @@
 package com.izhar.ism;
 
+import android.app.Notification;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +49,7 @@ public class Approval extends AppCompatActivity {
     DatabaseReference approved, passed;
     String waiter_name;
     DatabaseReference waiter_request, cashier_request, declined, cooker_request, waiter_approved, waiter_declined;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

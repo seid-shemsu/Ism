@@ -2,6 +2,9 @@ package com.izhar.ism.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,9 +87,12 @@ public class PendingTab extends Fragment {
                 if (requests.size()==0){
                     not_found.setVisibility(View.VISIBLE);
                 }
+                else {
+                    pendingAdapter = new PendingAdapter(getContext(), requests);
+                    recycle.setAdapter(pendingAdapter);
+                    playNotificationSound();
+                }
                 loader.setVisibility(View.GONE);
-                pendingAdapter = new PendingAdapter(getContext(), requests);
-                recycle.setAdapter(pendingAdapter);
             }
 
             @Override
@@ -94,5 +100,15 @@ public class PendingTab extends Fragment {
 
             }
         });
+    }
+    Uri notify;
+    public void playNotificationSound() {
+        try {
+            notify = Uri.parse("android.resource://" + getContext().getPackageName() + "/" + R.raw.notification);
+            Ringtone r = RingtoneManager.getRingtone(getContext(), notify);
+            r.play();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
