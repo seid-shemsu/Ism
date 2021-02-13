@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.izhar.ism.R;
+import com.izhar.ism.adapters.ApprovalAdapter;
 import com.izhar.ism.adapters.FinishedAdapter;
 import com.izhar.ism.adapters.FoodListAdapter;
 import com.izhar.ism.adminJob.FoodList;
@@ -31,7 +32,9 @@ public class SeeMore extends AppCompatActivity {
     LottieAnimationView loader;
     RecyclerView recycler;
     FinishedAdapter adapter;
+    ApprovalAdapter adapter1;
     List<Request> requests;
+    List<Food> foods;
     TextView empty;
     String type;
     @Override
@@ -44,7 +47,11 @@ public class SeeMore extends AppCompatActivity {
         recycler = findViewById(R.id.recycle);
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        getFoods();
+        if (type.equalsIgnoreCase("approved"))
+            getSold();
+        else
+            getFoods();
+
     }
 
     private void getFoods() {
@@ -64,6 +71,32 @@ public class SeeMore extends AppCompatActivity {
                 else {
                     adapter = new FinishedAdapter(SeeMore.this, requests);
                     recycler.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    private void getSold(){
+        foods = new ArrayList<>();
+        ApprovalAdapter adapter;
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("sold").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                foods.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                    foods.add(snapshot.getValue(Food.class));
+                loader.setVisibility(View.GONE);
+                if (foods.size()==0){
+                    empty.setVisibility(View.VISIBLE);
+                }
+                else {
+                    adapter1 = new ApprovalAdapter( foods, SeeMore.this);
+                    recycler.setAdapter(adapter1);
                 }
             }
 

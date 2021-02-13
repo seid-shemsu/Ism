@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight=".25"
             android:gravity="center"
-            android:text="total price" />
+            android:text="price" />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/l1"

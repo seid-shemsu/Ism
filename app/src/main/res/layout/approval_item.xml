@@ -5,6 +5,7 @@
     android:layout_height="50dp"
     android:layout_margin="5dp"
     app:cardCornerRadius="10dp"
+    android:background="@drawable/item_bg"
     app:cardElevation="5dp">
 
     <RelativeLayout

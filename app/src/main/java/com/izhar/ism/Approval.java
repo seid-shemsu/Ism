@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +43,7 @@ public class Approval extends AppCompatActivity {
     LottieAnimationView loader;
     TextView total;
     List<Food> foods = new ArrayList<>();
+    List<Food> soldFoods = new ArrayList<>();
     String id;
     SharedPreferences user;
     ApprovalAdapter adapter;
@@ -49,7 +51,7 @@ public class Approval extends AppCompatActivity {
     DatabaseReference approved, passed;
     String waiter_name;
     DatabaseReference waiter_request, cashier_request, declined, cooker_request, waiter_approved, waiter_declined;
-
+    int old_amount, new_amount, old_price, new_price;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,7 @@ public class Approval extends AppCompatActivity {
                 if (user.getString("user", "").equalsIgnoreCase("waiter")) {
                     SharedPreferences u_name = getSharedPreferences("user", MODE_PRIVATE);
                     String name = u_name.getString("name", "default");
+                    cooker_request = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     cashier_request = FirebaseDatabase.getInstance().getReference("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     waiter_request = FirebaseDatabase.getInstance().getReference("waiter").child("pending").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name).child(id);
                     declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
@@ -91,12 +94,12 @@ public class Approval extends AppCompatActivity {
 
                         }
                     });
+                    cooker_request.removeValue();
                     cashier_request.removeValue();
                     waiter_request.removeValue();
                 }
 
                 else if (user.getString("user", "").equalsIgnoreCase("cashier")){
-
                     cashier_request = FirebaseDatabase.getInstance().getReference("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     cashier_request.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -129,17 +132,16 @@ public class Approval extends AppCompatActivity {
                 }
                 else {
                     DatabaseReference cashApproved = FirebaseDatabase.getInstance().getReference("cashier").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
-                    cashApproved.addListenerForSingleValueEvent(new ValueEventListener() {
+                    final DatabaseReference req = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
+                    req.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             waiter_name = dataSnapshot.child("name").getValue().toString();
                             waiter_request = FirebaseDatabase.getInstance().getReference("waiter").child("pending").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(waiter_name).child(id);
                             waiter_request.removeValue();
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
                         }
                     });
                     cooker_request = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
@@ -189,8 +191,8 @@ public class Approval extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             waiter_name = dataSnapshot.child("name").getValue().toString();
                             waiter_request = FirebaseDatabase.getInstance().getReference("waiter").child("pending").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(waiter_name).child(id);
-                            waiter_approved = FirebaseDatabase.getInstance().getReference("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(waiter_name).child(id);
                             waiter_request.removeValue();
+                            waiter_approved = FirebaseDatabase.getInstance().getReference("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(waiter_name).child(id);
                             waiter_approved.setValue(dataSnapshot.getValue());
                         }
                         @Override
@@ -199,6 +201,45 @@ public class Approval extends AppCompatActivity {
                     });
                     final DatabaseReference app = FirebaseDatabase.getInstance().getReference("cooker").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     final DatabaseReference pass = FirebaseDatabase.getInstance().getReference("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
+                    final DatabaseReference sold = FirebaseDatabase.getInstance().getReference("sold").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+
+                    req.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.child("foods").getChildren()){
+                                soldFoods.add(snapshot.getValue(Food.class));
+                            }
+                            for (int i = 0 ; i < soldFoods.size(); i++){
+                                int finalI = i;
+                                sold.child(soldFoods.get(i).getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot.hasChildren()){
+                                            old_amount = Integer.parseInt(dataSnapshot.child("quantity").getValue().toString());
+                                            old_price = Integer.parseInt(dataSnapshot.child("price").getValue().toString());
+                                        }
+                                        else{
+                                            old_amount = 0;
+                                            old_price = 0;
+                                        }
+                                        new_amount = Integer.parseInt(soldFoods.get(finalI).getQuantity());
+                                        new_price = new_amount * Integer.parseInt(soldFoods.get(finalI).getPrice());
+                                        sold.child(soldFoods.get(finalI).getName()).setValue(new Food(soldFoods.get(finalI).getName(), Integer.toString(old_price + new_price), Integer.toString(new_amount + old_amount)));
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                     req.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -1,5 +1,6 @@
 package com.izhar.ism.fragments;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.Ringtone;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -87,7 +89,8 @@ public class FinishedTab extends Fragment {
                 else {
                     finishedAdapter = new FinishedAdapter(getContext(), requests);
                     recycle.setAdapter(finishedAdapter);
-                    playNotificationSound();
+                    if (user.equalsIgnoreCase("waiter"))
+                        playNotificationSound();
                 }
                 loader.setVisibility(View.GONE);
             }
@@ -104,8 +107,18 @@ public class FinishedTab extends Fragment {
             notify = Uri.parse("android.resource://" + getContext().getPackageName() + "/" + R.raw.notification);
             Ringtone r = RingtoneManager.getRingtone(getContext(), notify);
             r.play();
+            showNotification("example", "body");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    private void showNotification(String title, String body) {
+        NotificationCompat.Builder notify = new NotificationCompat.Builder(getContext());
+        notify.setSmallIcon(R.drawable.check)
+                .setContentTitle("New Approval")
+                .setContentText("Your order is waiting for you");
+        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(12, notify.build());
+
     }
 }

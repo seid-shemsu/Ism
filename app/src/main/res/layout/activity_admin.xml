@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
                 android:layout_margin="3dp"
-                android:text="see more"
+                android:text="detail"
                 android:textColor="#0525D5" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="approved"
+                    android:text="sold"
                     android:textAllCaps="true" />
 
                 <TextView
@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|bottom"
                     android:layout_margin="3dp"
-                    android:text="see more"
+                    android:text="detail"
                     android:textColor="#0525D5" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -154,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|right"
                     android:layout_margin="3dp"
-                    android:text="see more"
+                    android:text="detail"
                     android:textColor="#0525D5" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

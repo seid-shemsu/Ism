@@ -1,10 +1,15 @@
 package com.izhar.ism.fragments;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,6 +68,7 @@ public class PendingTab extends Fragment {
         return view;
     }
 
+    String notifyName;
     DatabaseReference data;
     private void getData() {
         SharedPreferences u_name = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -82,6 +90,7 @@ public class PendingTab extends Fragment {
                     String time = snapshot.child("dateTime").getValue().toString();
                     String price = snapshot.child("total").getValue().toString() + "\nETB";
                     String name = snapshot.child("name").getValue().toString();
+                    notifyName = name;
                     requests.add(new Request(id, price, time, name));
                 }
                 if (requests.size()==0){
@@ -90,7 +99,8 @@ public class PendingTab extends Fragment {
                 else {
                     pendingAdapter = new PendingAdapter(getContext(), requests);
                     recycle.setAdapter(pendingAdapter);
-                    playNotificationSound();
+                    if (!user.equalsIgnoreCase("waiter"))
+                        playNotificationSound();
                 }
                 loader.setVisibility(View.GONE);
             }
@@ -107,8 +117,18 @@ public class PendingTab extends Fragment {
             notify = Uri.parse("android.resource://" + getContext().getPackageName() + "/" + R.raw.notification);
             Ringtone r = RingtoneManager.getRingtone(getContext(), notify);
             r.play();
+            showNotification("example", "body");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    private void showNotification(String title, String body) {
+        NotificationCompat.Builder notify = new NotificationCompat.Builder(getContext());
+        notify.setSmallIcon(R.drawable.add)
+                .setContentTitle("New Order")
+                .setContentText("New Order is arrived");
+        NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(12, notify.build());
+
     }
 }
