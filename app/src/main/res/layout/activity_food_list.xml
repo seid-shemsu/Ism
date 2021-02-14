@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="no food has been added so far."
+        android:text="empty"
         android:id="@+id/empty"
         android:layout_margin="18sp"
         android:visibility="gone"

@@ -3,9 +3,12 @@ package com.izhar.ism.adminJob;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -64,15 +67,19 @@ public class FLA extends RecyclerView.Adapter<FLA.Holder> {
                 @Override
                 public void onClick(View v) {
                     Dialog dialog = new Dialog(context);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     dialog.setContentView(R.layout.new_price);
+                    dialog.setCanceledOnTouchOutside(false);
                     dialog.show();
+                    EditText name = dialog.findViewById(R.id.name);
                     EditText price = dialog.findViewById(R.id.price);
                     Button update = dialog.findViewById(R.id.btn_update);
                     update.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if (!price.getText().toString().isEmpty()){
-                                updatePrice(foods.get(getAdapterPosition()).getId(), price.getText().toString(), dialog);
+                                updatePrice(foods.get(getAdapterPosition()).getId(), name.getText().toString(), price.getText().toString(), dialog);
                             }
 
                         }
@@ -102,8 +109,9 @@ public class FLA extends RecyclerView.Adapter<FLA.Holder> {
         }
     }
 
-    private void updatePrice(long id, String price, Dialog dialog) {
+    private void updatePrice(long id, String name, String price, Dialog dialog) {
         DatabaseReference data = FirebaseDatabase.getInstance().getReference("items").child(id+"");
+        data.child("name").setValue(name);
         data.child("price").setValue(price).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

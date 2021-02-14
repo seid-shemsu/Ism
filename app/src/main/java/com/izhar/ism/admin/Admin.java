@@ -116,7 +116,7 @@ public class Admin extends AppCompatActivity {
                     sold_amount.setText(sTotal + " ETB");
                 }
                 else
-                    sold_amount.setText("0");
+                    sold_items.setText("0");
             }
 
             @Override
