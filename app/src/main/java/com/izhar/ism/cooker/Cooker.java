@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -16,16 +18,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.izhar.ism.R;
 import com.izhar.ism.adapters.PagerAdapter;
+import com.izhar.ism.admin.SeeMore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Cooker extends AppCompatActivity {
-    TextView pending_text, finished_text, approved_amount, requested_amount;
+    TextView pending_text, finished_text, approved_amount, requested_amount, declined_text, declined_amount;
     TabLayout tab;
     ViewPager view;
     PagerAdapter pagerAdapter;
-    int rTotal = 0 , aTotal = 0;
+    int rTotal = 0 , aTotal = 0, dTotal = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,8 @@ public class Cooker extends AppCompatActivity {
         finished_text = findViewById(R.id.finished);
         approved_amount = findViewById(R.id.approved_amount);
         requested_amount = findViewById(R.id.requested_amount);
+        declined_amount = findViewById(R.id.declined_amount);
+        declined_text = findViewById(R.id.declined);
         user.edit().putString("user", "cooker").apply();
         setValues();
         tab = findViewById(R.id.tab);
@@ -64,6 +69,8 @@ public class Cooker extends AppCompatActivity {
 
         final DatabaseReference request = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         DatabaseReference approved = FirebaseDatabase.getInstance().getReference("cooker").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference("cooker").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+
         request.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -102,5 +109,42 @@ public class Cooker extends AppCompatActivity {
 
             }
         });
+        declined.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+                    dTotal = 0;
+                    declined_text.setText(dataSnapshot.getChildrenCount() + "");
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        dTotal += Integer.parseInt(snapshot.child("total").getValue().toString());
+                    declined_amount.setText(dTotal + " ETB");
+                }
+                else
+                    declined_text.setText("0");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void requested(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "cooker")
+                .putExtra("type", "requested"));
+    }
+
+    public void approved(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "cooker")
+                .putExtra("type", "approved"));
+    }
+
+    public void declined(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "cooker")
+                .putExtra("type", "declined"));
     }
 }

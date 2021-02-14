@@ -25,9 +25,6 @@ import java.util.Date;
 public class Admin extends AppCompatActivity {
     TextView pending_text, finished_text, approved_amount, requested_amount, declined_text, declined_amount;
     int rTotal = 0 , aTotal = 0, dTotal = 0;
-    CardView manageCard, addFoodCard, foodListCard;
-    TextView manageText, addFoodText, foodListText;
-    TextView a_, d_, r_;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,70 +35,9 @@ public class Admin extends AppCompatActivity {
         requested_amount = findViewById(R.id.requested_amount);
         declined_text = findViewById(R.id.declined);
         declined_amount = findViewById(R.id.declined_amount);
-        a_ = findViewById(R.id.see_more_approved);
-        a_.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Admin.this, SeeMore.class).putExtra("type", "approved"));
-            }
-        });
-        d_ = findViewById(R.id.see_more_declined);
-        d_.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Admin.this, SeeMore.class).putExtra("type", "declined"));
-            }
-        });
-        r_ = findViewById(R.id.see_more_request);
-        r_.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Admin.this, SeeMore.class).putExtra("type", "requested"));
-            }
-        });
+
         setValues();
-        manageCard = findViewById(R.id.manageCard);
-        manageCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Admin.this, ManageUser.class));
-            }
-        });
-        manageText = findViewById(R.id.manageText);
-        manageCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Admin.this, ManageUser.class));
-            }
-        });
-        addFoodCard = findViewById(R.id.addFoodCard);
-        addFoodCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Admin.this, AddFood.class));
-            }
-        });
-        addFoodText = findViewById(R.id.addFoodText);
-        addFoodText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Admin.this, AddFood.class));
-            }
-        });
-        foodListCard = findViewById(R.id.foodListCard);
-        foodListCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Admin.this, FoodList.class));
-            }
-        });
-        foodListText = findViewById(R.id.foodListText);
-        foodListText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Admin.this, FoodList.class));
-            }
-        });
+
     }
 
     private void setValues() {
@@ -166,5 +102,36 @@ public class Admin extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void requested(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "admin")
+                .putExtra("type", "requested"));
+    }
+
+    public void sold(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "admin")
+                .putExtra("type", "sold"));
+    }
+
+    public void declined(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "admin")
+                .putExtra("type", "declined"));
+    }
+
+
+    public void manage(View view) {
+        startActivity(new Intent(Admin.this, ManageUser.class));
+    }
+
+    public void addFood(View view) {
+        startActivity(new Intent(Admin.this, AddFood.class));
+    }
+
+    public void foodList(View view) {
+        startActivity(new Intent(Admin.this, FoodList.class));
     }
 }

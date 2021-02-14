@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.izhar.ism.OrderActivity;
 import com.izhar.ism.R;
 import com.izhar.ism.adapters.PagerAdapter;
+import com.izhar.ism.admin.SeeMore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -138,5 +139,23 @@ public class Waiter extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void requested(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "waiter")
+                .putExtra("type", "requested"));
+    }
+
+    public void approved(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "waiter")
+                .putExtra("type", "approved"));
+    }
+
+    public void declined(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "waiter")
+                .putExtra("type", "declined"));
     }
 }

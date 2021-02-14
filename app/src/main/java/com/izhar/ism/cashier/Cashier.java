@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -17,17 +18,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.izhar.ism.R;
 import com.izhar.ism.adapters.PagerAdapter;
+import com.izhar.ism.admin.Admin;
+import com.izhar.ism.admin.SeeMore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Cashier extends AppCompatActivity {
 
-    TextView pending_text, finished_text, approved_amount, requested_amount;
+    TextView pending_text, finished_text, approved_amount, requested_amount, declined_text, declined_amount;
     TabLayout tab;
     ViewPager view;
     PagerAdapter pagerAdapter;
-    int rTotal = 0 , aTotal = 0;
+    int rTotal = 0 , aTotal = 0, dTotal=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,8 @@ public class Cashier extends AppCompatActivity {
         finished_text = findViewById(R.id.finished);
         approved_amount = findViewById(R.id.approved_amount);
         requested_amount = findViewById(R.id.requested_amount);
+        declined_text = findViewById(R.id.declined);
+        declined_amount = findViewById(R.id.declined_amount);
         setValues();
         tab = findViewById(R.id.tab);
         view = findViewById(R.id.viewpager);
@@ -63,9 +68,10 @@ public class Cashier extends AppCompatActivity {
         });
     }
     private void setValues() {
-        final DatabaseReference request = FirebaseDatabase.getInstance().getReference("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        final DatabaseReference requested = FirebaseDatabase.getInstance().getReference("cashier").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         DatabaseReference approved = FirebaseDatabase.getInstance().getReference("cashier").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        request.addValueEventListener(new ValueEventListener() {
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference("cashier").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        requested.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){
@@ -104,5 +110,43 @@ public class Cashier extends AppCompatActivity {
 
             }
         });
+        declined.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+                    dTotal = 0;
+                    declined_text.setText(dataSnapshot.getChildrenCount() + "");
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        dTotal += Integer.parseInt(snapshot.child("total").getValue().toString());
+                    declined_amount.setText(dTotal + " ETB");
+                }
+
+                else
+                    declined_text.setText("0");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void requested(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "cashier")
+                .putExtra("type", "requested"));
+    }
+
+    public void approved(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "cashier")
+                .putExtra("type", "approved"));
+    }
+
+    public void declined(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "cashier")
+                .putExtra("type", "declined"));
     }
 }

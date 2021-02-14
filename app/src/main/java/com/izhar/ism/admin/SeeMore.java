@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -36,21 +37,33 @@ public class SeeMore extends AppCompatActivity {
     List<Request> requests;
     List<Food> foods;
     TextView empty;
-    String type;
+    String type, actor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_more);
         type = getIntent().getExtras().getString("type");
+        actor = getIntent().getExtras().getString("actor");
         loader = findViewById(R.id.loader);
         empty = findViewById(R.id.empty);
         recycler = findViewById(R.id.recycle);
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-        if (type.equalsIgnoreCase("approved"))
-            getSold();
-        else
-            getFoods();
+        switch (actor){
+            case "admin":
+                getAdmin();
+                break;
+            case "waiter":
+                getWaiter();
+                break;
+            case "cashier":
+                getCashier();
+                break;
+            case "cooker":
+                getCooker();
+                break;
+        }
 
     }
 
@@ -61,14 +74,13 @@ public class SeeMore extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 requests.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     requests.add(snapshot.getValue(Request.class));
                 }
                 loader.setVisibility(View.GONE);
-                if (requests.size()==0){
+                if (requests.size() == 0) {
                     empty.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     adapter = new FinishedAdapter(SeeMore.this, requests);
                     recycler.setAdapter(adapter);
                 }
@@ -80,7 +92,8 @@ public class SeeMore extends AppCompatActivity {
             }
         });
     }
-    private void getSold(){
+
+    private void getSold() {
         foods = new ArrayList<>();
         ApprovalAdapter adapter;
         DatabaseReference data = FirebaseDatabase.getInstance().getReference("sold").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
@@ -91,13 +104,88 @@ public class SeeMore extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                     foods.add(snapshot.getValue(Food.class));
                 loader.setVisibility(View.GONE);
-                if (foods.size()==0){
+                if (foods.size() == 0) {
                     empty.setVisibility(View.VISIBLE);
-                }
-                else {
-                    adapter1 = new ApprovalAdapter( foods, SeeMore.this);
+                } else {
+                    adapter1 = new ApprovalAdapter(foods, SeeMore.this);
                     recycler.setAdapter(adapter1);
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getAdmin() {
+        switch (type){
+            case "sold":
+                getSold();
+                break;
+            default:
+                getFoods();
+                break;
+        }
+    }
+
+    private void getWaiter() {
+        requests = new ArrayList<>();
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("waiter").child(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", ""));
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                requests.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    requests.add(snapshot.getValue(Request.class));
+                }
+                loader.setVisibility(View.GONE);
+                adapter = new FinishedAdapter(SeeMore.this, requests);
+                recycler.setAdapter(adapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getCashier() {
+        requests = new ArrayList<>();
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("cashier").child(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                requests.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    requests.add(snapshot.getValue(Request.class));
+                }
+                loader.setVisibility(View.GONE);
+                adapter = new FinishedAdapter(SeeMore.this, requests);
+                recycler.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void getCooker() {
+        requests = new ArrayList<>();
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("cooker").child(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                requests.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    requests.add(snapshot.getValue(Request.class));
+                }
+                loader.setVisibility(View.GONE);
+                adapter = new FinishedAdapter(SeeMore.this, requests);
+                recycler.setAdapter(adapter);
             }
 
             @Override

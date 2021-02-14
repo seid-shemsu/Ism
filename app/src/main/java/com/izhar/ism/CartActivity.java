@@ -70,6 +70,9 @@ public class CartActivity extends AppCompatActivity {
                 //add to total requested orders
                 DatabaseReference ordered = FirebaseDatabase.getInstance().getReference().child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
                 ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
+                //add to cashier total requested orders
+                DatabaseReference c_ordered = FirebaseDatabase.getInstance().getReference("cashier").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
+                c_ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
                 //add to individual requested
                 ordered = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "").child(name);
                 ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));

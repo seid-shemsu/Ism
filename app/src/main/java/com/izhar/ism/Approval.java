@@ -50,7 +50,7 @@ public class Approval extends AppCompatActivity {
     Request request;
     DatabaseReference approved, passed;
     String waiter_name;
-    DatabaseReference waiter_request, cashier_request, declined, cooker_request, waiter_approved, waiter_declined;
+    DatabaseReference waiter_request, cashier_request, declined, cooker_request, waiter_approved, waiter_declined, cashier_declined, cashier_requested, cooker_requested, cooker_declined;
     int old_amount, new_amount, old_price, new_price;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,7 @@ public class Approval extends AppCompatActivity {
                     String name = u_name.getString("name", "default");
                     cooker_request = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     cashier_request = FirebaseDatabase.getInstance().getReference("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
+                    cashier_requested = FirebaseDatabase.getInstance().getReference("cashier").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     waiter_request = FirebaseDatabase.getInstance().getReference("waiter").child("pending").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name).child(id);
                     declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     waiter_declined = FirebaseDatabase.getInstance().getReference("waiter").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name).child(id);
@@ -96,6 +97,7 @@ public class Approval extends AppCompatActivity {
                     });
                     cooker_request.removeValue();
                     cashier_request.removeValue();
+                    cashier_requested.removeValue();
                     waiter_request.removeValue();
                 }
 
@@ -116,11 +118,13 @@ public class Approval extends AppCompatActivity {
 
                         }
                     });
+                    cashier_declined = FirebaseDatabase.getInstance().getReference("cashier").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     cashier_request.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             declined.setValue(dataSnapshot.getValue());
+                            cashier_declined.setValue(dataSnapshot.getValue());
                         }
 
                         @Override
@@ -128,6 +132,7 @@ public class Approval extends AppCompatActivity {
 
                         }
                     });
+
                     cashier_request.removeValue();
                 }
                 else {
@@ -146,10 +151,12 @@ public class Approval extends AppCompatActivity {
                     });
                     cooker_request = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
+                    cooker_declined = FirebaseDatabase.getInstance().getReference("cooker").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     cooker_request.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             declined.setValue(dataSnapshot.getValue());
+                            cooker_declined.setValue(dataSnapshot.getValue());
                         }
 
                         @Override
@@ -170,11 +177,13 @@ public class Approval extends AppCompatActivity {
                     final DatabaseReference req = FirebaseDatabase.getInstance().getReference("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     final DatabaseReference app = FirebaseDatabase.getInstance().getReference("cashier").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     final DatabaseReference pass = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
+                    cooker_requested = FirebaseDatabase.getInstance().getReference("cooker").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     req.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             app.setValue(dataSnapshot.getValue());
                             pass.setValue(dataSnapshot.getValue());
+                            cooker_requested.setValue(dataSnapshot.getValue());
                             req.removeValue();
                         }
                         @Override
