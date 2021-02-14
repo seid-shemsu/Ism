@@ -24,7 +24,7 @@ import java.util.Date;
 
 public class Admin extends AppCompatActivity {
     TextView pending_text, approved_text, approved_amount, requested_amount, declined_text, declined_amount, sold_amount, sold_items;
-    int rTotal = 0 , aTotal = 0, dTotal = 0;
+    int rTotal = 0 , aTotal = 0, dTotal = 0, sTotal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +109,11 @@ public class Admin extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){
-
+                    sTotal = 0;
+                    sold_items.setText(dataSnapshot.getChildrenCount() + "");
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                        sTotal += Integer.parseInt(snapshot.child("price").getValue().toString());
+                    sold_amount.setText(sTotal + " ETB");
                 }
                 else
                     sold_amount.setText("0");
