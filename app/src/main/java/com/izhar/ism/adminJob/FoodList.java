@@ -25,7 +25,7 @@ import java.util.List;
 public class FoodList extends AppCompatActivity {
     LottieAnimationView loader;
     RecyclerView recycler;
-    FoodListAdapter fla;
+    FLA fla;
     List<Food> foods;
     TextView empty;
     @Override
@@ -56,15 +56,12 @@ public class FoodList extends AppCompatActivity {
                     empty.setVisibility(View.VISIBLE);
                 }
                 else {
-                    fla = new FoodListAdapter(foods, FoodList.this);
+                    fla = new FLA(foods, FoodList.this);
                     recycler.setAdapter(fla);
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }

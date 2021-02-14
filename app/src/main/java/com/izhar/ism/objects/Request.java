@@ -30,6 +30,14 @@ public class Request {
         this.name = name;
     }
 
+    public Request(List<Food> foods, String id, String total, String dateTime, String name) {
+        this.foods = foods;
+        this.id = id;
+        this.total = total;
+        this.dateTime = dateTime;
+        this.name = name;
+    }
+
     public List<Food> getFoods() {
         return foods;
     }

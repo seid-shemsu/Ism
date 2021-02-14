@@ -69,19 +69,19 @@ public class CartActivity extends AppCompatActivity {
                 String id = System.currentTimeMillis() + "";
                 //add to total requested orders
                 DatabaseReference ordered = FirebaseDatabase.getInstance().getReference().child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
-                ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
+                ordered.child(id).setValue(new Request(foodList, id, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
                 //add to cashier total requested orders
                 DatabaseReference c_ordered = FirebaseDatabase.getInstance().getReference("cashier").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
-                c_ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
+                c_ordered.child(id).setValue(new Request(foodList, id,  cartAdapter.getTotal() + "", sdp.format(new Date()), name));
                 //add to individual requested
                 ordered = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "").child(name);
-                ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
+                ordered.child(id).setValue(new Request(foodList, id,  cartAdapter.getTotal() + "", sdp.format(new Date()), name));
                 //add to individual pending order
                 ordered = FirebaseDatabase.getInstance().getReference("waiter").child("pending").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "").child(name);
-                ordered.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
+                ordered.child(id).setValue(new Request(foodList, id,  cartAdapter.getTotal() + "", sdp.format(new Date()), name));
                 //send a request to cashier
                 DatabaseReference pending = FirebaseDatabase.getInstance().getReference().child("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
-                pending.child(id).setValue(new Request(foodList, cartAdapter.getTotal() + "", sdp.format(new Date()), name)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                pending.child(id).setValue(new Request(foodList, id,  cartAdapter.getTotal() + "", sdp.format(new Date()), name)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         startActivity(new Intent(CartActivity.this, Waiter.class));

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FoodView">
+    <LinearLayout
+        android:id="@+id/l1"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:text="name" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:gravity="center"
+            android:text="amount" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:gravity="center"
+            android:text="price" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/l2"
+        android:layout_marginTop="5dp"
+        android:id="@+id/recycle"/>
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/loader"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/circle_loader"
+        android:layout_centerInParent="true"/>
+    <LinearLayout
+        android:id="@+id/l2"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/item_bg"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".75"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:text="total price" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/total_price"
+            android:gravity="end"
+            android:layout_marginRight="5dp"
+            android:textSize="20sp"
+            android:layout_weight=".25"/>
+    </LinearLayout>
+</RelativeLayout>

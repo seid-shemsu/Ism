@@ -64,29 +64,29 @@
             android:onClick="sold"
             app:cardCornerRadius="7dp"
             app:cardElevation="10dp">
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:onClick="sold"
+                android:layout_height="wrap_content"
+                android:onClick="approved"
+                android:layout_margin="5dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:onClick="sold"
-                    android:text="sold foods"
+                    android:onClick="approved"
+                    android:text="approved"
                     android:textAllCaps="true" />
 
                 <TextView
-                    android:id="@+id/finished"
+                    android:id="@+id/approved"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
-                    android:textColor="#25830B"
-                    android:onClick="sold"
+                    android:textColor="#11DF0A"
+                    android:onClick="approved"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -94,8 +94,8 @@
                     android:id="@+id/approved_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="sold"
-                    android:layout_below="@id/finished"
+                    android:onClick="approved"
+                    android:layout_below="@id/declined"
                     android:layout_gravity="center_horizontal"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -113,13 +113,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="declined"
+                android:layout_margin="5dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="5dp"
                     android:onClick="declined"
                     android:text="declined"
                     android:textAllCaps="true" />
@@ -145,6 +145,49 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="7dp"
+        android:onClick="sold">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="sold"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="sold"
+                android:text="sold foods"
+                android:textAllCaps="true" />
+
+            <TextView
+                android:id="@+id/sold_items"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:textColor="#25830B"
+                android:onClick="sold"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/sold_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="sold"
+                android:layout_below="@id/finished"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 
     <LinearLayout
         android:layout_width="match_parent"

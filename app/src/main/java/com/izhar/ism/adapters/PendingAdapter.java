@@ -66,7 +66,9 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.Holder> 
         @Override
         public void onClick(View v) {
             String orderId = requests.get(getAdapterPosition()).getId();
-            context.startActivity(new Intent(context, Approval.class).putExtra("orderId", orderId).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            context.startActivity(new Intent(context, Approval.class)
+                    .putExtra("type", "pending")
+                    .putExtra("orderId", orderId).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
     }
 

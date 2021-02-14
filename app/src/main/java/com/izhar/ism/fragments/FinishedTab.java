@@ -87,7 +87,7 @@ public class FinishedTab extends Fragment {
                     not_found.setVisibility(View.VISIBLE);
                 }
                 else {
-                    finishedAdapter = new FinishedAdapter(getContext(), requests);
+                    finishedAdapter = new FinishedAdapter(getContext(), requests, "requested");
                     recycle.setAdapter(finishedAdapter);
                     if (user.equalsIgnoreCase("waiter"))
                         playNotificationSound();

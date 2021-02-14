@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_margin="5dp"
+    android:background="@drawable/item_bg"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:layout_margin="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_alignParentLeft="true"
+        android:gravity="center_vertical"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/name"
+        android:id="@+id/price"
+        android:layout_below="@id/name"
+        android:layout_margin="5dp"
+        android:gravity="center_vertical"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/edit"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/btn_remove"
+        android:background="@android:color/transparent"
+        android:id="@+id/btn_edit"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/delete"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"
+        android:background="@android:color/transparent"
+        android:layout_centerVertical="true"
+        android:id="@+id/btn_remove"/>
+
+</RelativeLayout>

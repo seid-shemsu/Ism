@@ -81,7 +81,7 @@ public class SeeMore extends AppCompatActivity {
                 if (requests.size() == 0) {
                     empty.setVisibility(View.VISIBLE);
                 } else {
-                    adapter = new FinishedAdapter(SeeMore.this, requests);
+                    adapter = new FinishedAdapter(SeeMore.this, requests, type);
                     recycler.setAdapter(adapter);
                 }
             }
@@ -141,7 +141,7 @@ public class SeeMore extends AppCompatActivity {
                     requests.add(snapshot.getValue(Request.class));
                 }
                 loader.setVisibility(View.GONE);
-                adapter = new FinishedAdapter(SeeMore.this, requests);
+                adapter = new FinishedAdapter(SeeMore.this, requests, type);
                 recycler.setAdapter(adapter);
             }
             @Override
@@ -162,7 +162,7 @@ public class SeeMore extends AppCompatActivity {
                     requests.add(snapshot.getValue(Request.class));
                 }
                 loader.setVisibility(View.GONE);
-                adapter = new FinishedAdapter(SeeMore.this, requests);
+                adapter = new FinishedAdapter(SeeMore.this, requests, type);
                 recycler.setAdapter(adapter);
             }
 
@@ -184,7 +184,7 @@ public class SeeMore extends AppCompatActivity {
                     requests.add(snapshot.getValue(Request.class));
                 }
                 loader.setVisibility(View.GONE);
-                adapter = new FinishedAdapter(SeeMore.this, requests);
+                adapter = new FinishedAdapter(SeeMore.this, requests, type);
                 recycler.setAdapter(adapter);
             }
 

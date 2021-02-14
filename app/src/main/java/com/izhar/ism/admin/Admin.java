@@ -23,19 +23,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Admin extends AppCompatActivity {
-    TextView pending_text, finished_text, approved_amount, requested_amount, declined_text, declined_amount;
+    TextView pending_text, approved_text, approved_amount, requested_amount, declined_text, declined_amount, sold_amount, sold_items;
     int rTotal = 0 , aTotal = 0, dTotal = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
         pending_text = findViewById(R.id.pending);
-        finished_text = findViewById(R.id.finished);
+        approved_text = findViewById(R.id.approved);
         approved_amount = findViewById(R.id.approved_amount);
         requested_amount = findViewById(R.id.requested_amount);
         declined_text = findViewById(R.id.declined);
         declined_amount = findViewById(R.id.declined_amount);
-
+        sold_amount = findViewById(R.id.sold_amount);
+        sold_items = findViewById(R.id.sold_items);
         setValues();
 
     }
@@ -44,6 +46,7 @@ public class Admin extends AppCompatActivity {
         DatabaseReference declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         DatabaseReference request = FirebaseDatabase.getInstance().getReference().child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         DatabaseReference approved = FirebaseDatabase.getInstance().getReference().child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference sold = FirebaseDatabase.getInstance().getReference().child("sold").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         request.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -68,14 +71,14 @@ public class Admin extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChildren()){
                     aTotal = 0;
-                    finished_text.setText(dataSnapshot.getChildrenCount() + "");
+                    approved_text.setText(dataSnapshot.getChildrenCount() + "");
                     for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         aTotal += Integer.parseInt(snapshot.child("total").getValue().toString());
                     approved_amount.setText(aTotal + " ETB");
                 }
 
                 else
-                    finished_text.setText("0");
+                    approved_text.setText("0");
             }
 
             @Override
@@ -102,6 +105,21 @@ public class Admin extends AppCompatActivity {
 
             }
         });
+        sold.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChildren()){
+
+                }
+                else
+                    sold_amount.setText("0");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void requested(View view) {
@@ -121,7 +139,11 @@ public class Admin extends AppCompatActivity {
                 .putExtra("actor", "admin")
                 .putExtra("type", "declined"));
     }
-
+    public void approved(View view) {
+        startActivity(new Intent(this, SeeMore.class)
+                .putExtra("actor", "admin")
+                .putExtra("type", "approved"));
+    }
 
     public void manage(View view) {
         startActivity(new Intent(Admin.this, ManageUser.class));
@@ -134,4 +156,6 @@ public class Admin extends AppCompatActivity {
     public void foodList(View view) {
         startActivity(new Intent(Admin.this, FoodList.class));
     }
+
+
 }
