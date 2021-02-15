@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:layout_margin="5dp"
     android:background="@drawable/item_bg"
     app:cardElevation="5dp">
 
@@ -15,7 +14,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
@@ -25,6 +25,10 @@
                 android:gravity="center"
                 android:textSize="20sp"
                 android:id="@+id/name"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -33,6 +37,10 @@
                 android:gravity="center"
                 android:textSize="20sp"
                 android:id="@+id/amount"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -42,6 +50,11 @@
                 android:gravity="center"
                 android:id="@+id/price"/>
         </LinearLayout>
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"/>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

@@ -1,5 +1,6 @@
 package com.izhar.ism.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -69,6 +70,7 @@ public class PendingAdapter extends RecyclerView.Adapter<PendingAdapter.Holder> 
             context.startActivity(new Intent(context, Approval.class)
                     .putExtra("type", "pending")
                     .putExtra("orderId", orderId).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            ((Activity)context).finish();
         }
     }
 

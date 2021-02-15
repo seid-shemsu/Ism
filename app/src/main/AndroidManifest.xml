@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ism">
-        <activity android:name=".FoodView"></activity>
+        <activity android:name=".WaiterPerformance"></activity>
+        <activity android:name=".FoodView" />
         <activity android:name=".admin.SeeMore" />
         <activity android:name=".adminJob.FoodList" />
         <activity android:name=".adminJob.ManageUser" />
