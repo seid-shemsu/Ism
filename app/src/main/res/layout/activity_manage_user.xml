@@ -6,6 +6,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".adminJob.ManageUser">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:onClick="add_waiter"
+        android:layout_margin="10dp"
+        app:cardElevation="5dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:onClick="add_waiter"
+            android:background="@android:color/transparent"
+            android:text="add new waiter"
+            android:id="@+id/add_waiter"/>
+    </androidx.cardview.widget.CardView>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

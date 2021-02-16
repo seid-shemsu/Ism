@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     Button login;
     EditText username, password;
     DatabaseReference data;
+    LottieAnimationView loader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +35,13 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.login);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
+        loader = findViewById(R.id.loader);
         data = FirebaseDatabase.getInstance().getReference().child("users");
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loader.setVisibility(View.VISIBLE);
+                login.setVisibility(View.GONE);
                 getData();
             }
         });

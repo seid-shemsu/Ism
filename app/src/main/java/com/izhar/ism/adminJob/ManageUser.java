@@ -21,4 +21,8 @@ public class ManageUser extends AppCompatActivity {
     public void waiter_performance(View view) {
         startActivity(new Intent(this, WaiterPerformance.class));
     }
+
+    public void add_waiter(View view) {
+
+    }
 }

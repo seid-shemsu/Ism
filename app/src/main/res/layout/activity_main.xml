@@ -26,4 +26,14 @@
         android:layout_height="wrap_content"
         android:text="login"
         android:id="@+id/login"/>
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:lottie_rawRes="@raw/circle_loader"
+        android:layout_gravity="center_horizontal"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        android:visibility="gone"
+        android:id="@+id/loader"/>
+
 </LinearLayout>

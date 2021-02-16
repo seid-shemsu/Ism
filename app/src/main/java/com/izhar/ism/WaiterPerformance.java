@@ -31,7 +31,6 @@ public class WaiterPerformance extends AppCompatActivity {
     LottieAnimationView loader;
     List<String> names;
     List<User> users;
-    List<Request> approved, requested, declined;
     WaiterPerformanceAdapter adapter;
 
     @Override
@@ -44,13 +43,9 @@ public class WaiterPerformance extends AppCompatActivity {
         not_found = findViewById(R.id.not_found);
         loader = findViewById(R.id.loader);
         users = new ArrayList<>();
-        approved = new ArrayList<>();
-        declined = new ArrayList<>();
-        requested = new ArrayList<>();
         names = new ArrayList<>();
         getNames();
     }
-
     private void getNames() {
         DatabaseReference users = FirebaseDatabase.getInstance().getReference("users");
         users.addValueEventListener(new ValueEventListener() {
@@ -59,9 +54,10 @@ public class WaiterPerformance extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     if (snapshot.child("type").getValue().toString().equalsIgnoreCase("waiter")) {
                         names.add(snapshot.child("name").getValue().toString());
+                        getData(snapshot.child("name").getValue().toString());
                     }
                 }
-                getData();
+                //getData();
             }
 
             @Override
@@ -71,67 +67,50 @@ public class WaiterPerformance extends AppCompatActivity {
         });
     }
 
-    int loop = 0;
+    private void getData(String name) {
 
-    private void getData() {
-        for (int i = 0; i < names.size(); i++) {
-            String name = names.get(i);
-            requested.clear();
-            DatabaseReference approve = FirebaseDatabase.getInstance().getReference("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
-            DatabaseReference decline = FirebaseDatabase.getInstance().getReference("waiter").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
-            DatabaseReference request = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
-            int finalI = i;
-            request.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                        requested.add(snapshot.getValue(Request.class));
-                    declined.clear();
-                    decline.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                                declined.add(snapshot.getValue(Request.class));
-                            approved.clear();
-                            approve.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                                        approved.add(snapshot.getValue(Request.class));
-                                    users.add(new User(name, requested, approved, declined));
-                                    if (finalI == users.size()-1){
-                                        if (users.size() == 0)
-                                            not_found.setVisibility(View.VISIBLE);
-                                        loader.setVisibility(View.GONE);
-                                        adapter = new WaiterPerformanceAdapter(WaiterPerformance.this, users);
-                                        recycle.setAdapter(adapter);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-
-            //users.add(new User(name, requested, approved, declined));
-        }
-
+        List<Request> requested = new ArrayList<>();
+        DatabaseReference request = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
+        request.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                    requested.add(snapshot.getValue(Request.class));
+                List<Request> declined = new ArrayList<>();
+                DatabaseReference decline = FirebaseDatabase.getInstance().getReference("waiter").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
+                decline.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                            declined.add(snapshot.getValue(Request.class));
+                        List<Request> approved = new ArrayList<>();
+                        DatabaseReference approve = FirebaseDatabase.getInstance().getReference("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
+                        approve.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                                    approved.add(snapshot.getValue(Request.class));
+                                users.add(new User(name, requested, approved, declined));
+                                if (users.size() == 0)
+                                    not_found.setVisibility(View.VISIBLE);
+                                loader.setVisibility(View.GONE);
+                                adapter = new WaiterPerformanceAdapter(WaiterPerformance.this, users);
+                                recycle.setAdapter(adapter);
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     private void set() {
@@ -143,7 +122,7 @@ public class WaiterPerformance extends AppCompatActivity {
     }
 
     private void getDeclined(String name) {
-        Toast.makeText(this, declined.size() + "", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, declined.size() + "", Toast.LENGTH_SHORT).show();
 
     }
 
