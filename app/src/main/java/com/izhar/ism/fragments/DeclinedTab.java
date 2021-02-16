@@ -1,15 +1,11 @@
 package com.izhar.ism.fragments;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,40 +25,36 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.izhar.ism.R;
-import com.izhar.ism.adapters.PendingAdapter;
+import com.izhar.ism.adapters.DeclinedAdapter;
+import com.izhar.ism.adapters.FinishedAdapter;
 import com.izhar.ism.objects.Request;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class PendingTab extends Fragment {
-
-    public PendingTab() {
-        // Required empty public constructor
+public class DeclinedTab  extends Fragment {
+    public DeclinedTab() {
     }
     String user;
-    public PendingTab(String user){
+    public DeclinedTab(String user){
         this.user = user;
     }
     List<Request> requests = new ArrayList<>();
-    PendingAdapter pendingAdapter;
+    DeclinedAdapter declinedAdapter;
     RecyclerView recycle;
     TextView not_found;
     LottieAnimationView loader;
-    SharedPreferences pending;
+    DatabaseReference data;
+    SharedPreferences declined;
     int item;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_pending_tab, container, false);
-        pending = getContext().getSharedPreferences("pending", Context.MODE_PRIVATE);
-        item = pending.getInt("pending", 0);
+        View view =  inflater.inflate(R.layout.fragment_declined_tab, container, false);
+        declined = getContext().getSharedPreferences("declined", Context.MODE_PRIVATE);
+        item = declined.getInt("declined", 0);
         recycle = view.findViewById(R.id.recycle);
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         recycle.setHasFixedSize(true);
@@ -71,18 +63,14 @@ public class PendingTab extends Fragment {
         getData();
         return view;
     }
-
-    String notifyName;
-    DatabaseReference data;
     private void getData() {
         SharedPreferences u_name = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         String name = u_name.getString("name", "default");
-        String user = getContext().getSharedPreferences("user", Context.MODE_PRIVATE).getString("user", "");
         if (user.equalsIgnoreCase("waiter")){
-            data = FirebaseDatabase.getInstance().getReference().child("waiter").child("pending").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
+            data = FirebaseDatabase.getInstance().getReference().child("waiter").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
         }
         else{
-            data = FirebaseDatabase.getInstance().getReference().child(user).child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+            data = FirebaseDatabase.getInstance().getReference().child(user).child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
         }
         data.addValueEventListener(new ValueEventListener() {
             @Override
@@ -92,48 +80,45 @@ public class PendingTab extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String id = snapshot.getKey();
                     String time = snapshot.child("dateTime").getValue().toString();
-                    String price = snapshot.child("total").getValue().toString() + "\nETB";
+                    String price = snapshot.child("total").getValue().toString();
                     String name = snapshot.child("name").getValue().toString();
-                    notifyName = name;
                     requests.add(new Request(id, price, time, name));
                 }
                 if (requests.size()==0){
                     not_found.setVisibility(View.VISIBLE);
                 }
                 else {
-                    pendingAdapter = new PendingAdapter(getContext(), requests);
-                    recycle.setAdapter(pendingAdapter);
-                    if (!user.equalsIgnoreCase("waiter") && item != requests.size())
+                    declinedAdapter = new DeclinedAdapter(getContext(), requests, "declined");
+                    recycle.setAdapter(declinedAdapter);
+                    if (user.equalsIgnoreCase("waiter") && item != requests.size())
                         playNotificationSound();
                 }
                 loader.setVisibility(View.GONE);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
-    Uri notify;
     public void playNotificationSound() {
         try {
-            notify = Uri.parse("android.resource://" + getContext().getPackageName() + "/" + R.raw.notification);
+            Uri notify = Uri.parse("android.resource://" + getContext().getPackageName() + "/" + R.raw.notification);
             Ringtone r = RingtoneManager.getRingtone(getContext(), notify);
             r.play();
+            declined.edit().putInt("declined", requests.size()).apply();
             showNotification("example", "body");
-            pending.edit().putInt("pending", requests.size()).apply();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     private void showNotification(String title, String body) {
         NotificationCompat.Builder notify = new NotificationCompat.Builder(getContext());
-        notify.setSmallIcon(R.drawable.append)
-                .setContentTitle("New Order")
-                .setContentText("New Order is arrived");
+        notify.setSmallIcon(R.drawable.decline)
+                .setContentTitle("New Declined")
+                .setContentText("Your order is declined");
         NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(12, notify.build());
+        notificationManager.notify(13, notify.build());
 
     }
+
 }

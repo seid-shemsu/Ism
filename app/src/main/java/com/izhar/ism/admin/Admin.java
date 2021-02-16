@@ -5,7 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.izhar.ism.MainActivity;
 import com.izhar.ism.R;
 import com.izhar.ism.adminJob.AddFood;
 import com.izhar.ism.adminJob.FoodList;
@@ -161,5 +167,24 @@ public class Admin extends AppCompatActivity {
         startActivity(new Intent(Admin.this, FoodList.class));
     }
 
+    @Override
+    public boolean onCreatePanelMenu(int featureId, @NonNull Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout){
+            SharedPreferences declined = getSharedPreferences("declined", MODE_PRIVATE);
+            SharedPreferences approved = getSharedPreferences("finished", MODE_PRIVATE);
+            SharedPreferences requested = getSharedPreferences("pending", MODE_PRIVATE);
+            declined.edit().clear().apply();
+            approved.edit().clear().apply();
+            requested.edit().clear().apply();
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+        return true;
+    }
 }

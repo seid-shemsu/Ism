@@ -20,6 +20,7 @@
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:onClick="add_waiter"
+            android:textColor="@color/colorPrimary"
             android:background="@android:color/transparent"
             android:text="add new user"
             android:id="@+id/add_waiter"/>
@@ -37,9 +38,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
+            android:textColor="@color/colorPrimary"
             android:onClick="waiter_performance"
             android:background="@android:color/transparent"
             android:text="waiter performance"
             android:id="@+id/performance"/>
     </androidx.cardview.widget.CardView>
+
 </LinearLayout>

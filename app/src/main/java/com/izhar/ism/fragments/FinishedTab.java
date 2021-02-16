@@ -50,10 +50,14 @@ public class FinishedTab extends Fragment {
     RecyclerView recycle;
     TextView not_found;
     LottieAnimationView loader;
+    SharedPreferences finished;
+    int item;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_finished_tab, container, false);
+        finished = getContext().getSharedPreferences("finished", Context.MODE_PRIVATE);
+        item = finished.getInt("finished", 0);
         recycle = view.findViewById(R.id.recycle);
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         recycle.setHasFixedSize(true);
@@ -75,7 +79,8 @@ public class FinishedTab extends Fragment {
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                requests.clear();not_found.setVisibility(View.GONE);
+                requests.clear();
+                not_found.setVisibility(View.GONE);
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String id = snapshot.getKey();
                     String time = snapshot.child("dateTime").getValue().toString();
@@ -89,7 +94,7 @@ public class FinishedTab extends Fragment {
                 else {
                     finishedAdapter = new FinishedAdapter(getContext(), requests, "requested");
                     recycle.setAdapter(finishedAdapter);
-                    if (user.equalsIgnoreCase("waiter"))
+                    if (user.equalsIgnoreCase("waiter") && item != requests.size())
                         playNotificationSound();
                 }
                 loader.setVisibility(View.GONE);
@@ -101,13 +106,13 @@ public class FinishedTab extends Fragment {
             }
         });
     }
-    Uri notify;
     public void playNotificationSound() {
         try {
-            notify = Uri.parse("android.resource://" + getContext().getPackageName() + "/" + R.raw.notification);
+            Uri notify = Uri.parse("android.resource://" + getContext().getPackageName() + "/" + R.raw.notification);
             Ringtone r = RingtoneManager.getRingtone(getContext(), notify);
             r.play();
             showNotification("example", "body");
+            finished.edit().putInt("finished", requests.size()).apply();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -121,4 +126,5 @@ public class FinishedTab extends Fragment {
         notificationManager.notify(12, notify.build());
 
     }
+
 }

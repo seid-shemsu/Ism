@@ -53,6 +53,7 @@ public class ManageUser extends AppCompatActivity {
         username = dialog.findViewById(R.id.username);
         password = dialog.findViewById(R.id.password);
         Spinner type = dialog.findViewById(R.id.spinner);
+        dialog.show();
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +86,7 @@ public class ManageUser extends AppCompatActivity {
                 }
                 else if (type.getSelectedItemPosition() == 0){
                     Toast.makeText(ManageUser.this, "select user role", Toast.LENGTH_SHORT).show();
+                    return false;
                 }
                 return true;
             }

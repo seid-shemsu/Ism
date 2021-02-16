@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.izhar.ism.fragments.DeclinedTab;
 import com.izhar.ism.fragments.FinishedTab;
 import com.izhar.ism.fragments.PendingTab;
 
@@ -28,6 +29,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 FinishedTab finishedTab = new FinishedTab(user);
                 return finishedTab;
+            case 2:
+                DeclinedTab declinedTab = new DeclinedTab(user);
+                return declinedTab;
             default:
                 return null;
         }
