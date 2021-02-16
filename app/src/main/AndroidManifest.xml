@@ -13,7 +13,7 @@
         <activity android:name=".FoodView" />
         <activity android:name=".admin.SeeMore" />
         <activity android:name=".adminJob.FoodList" />
-        <activity android:name=".adminJob.ManageUser" />
+        <activity android:name=".adminJob.ManageUser"/>
         <activity android:name=".adminJob.AddFood" />
         <activity android:name=".Approval" />
         <activity android:name=".OrderActivity" />
