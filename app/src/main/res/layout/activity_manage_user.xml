@@ -21,7 +21,7 @@
             android:layout_margin="10dp"
             android:onClick="add_waiter"
             android:background="@android:color/transparent"
-            android:text="add new waiter"
+            android:text="add new user"
             android:id="@+id/add_waiter"/>
     </androidx.cardview.widget.CardView>
 
