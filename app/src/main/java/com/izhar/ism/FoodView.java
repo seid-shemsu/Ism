@@ -35,6 +35,7 @@ public class FoodView extends AppCompatActivity {
     Request request;
     FoodViewAdapter adapter;
     DatabaseReference data;
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +46,14 @@ public class FoodView extends AppCompatActivity {
         total = findViewById(R.id.total_price);
         recycle = findViewById(R.id.recycle);
         recycle.setHasFixedSize(true);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         recycle.setLayoutManager(new LinearLayoutManager(this));
         getData();
     }
 
     private void getData() {
         //Toast.makeText(this, type + "\n" + id, Toast.LENGTH_SHORT).show();
-        data = FirebaseDatabase.getInstance().getReference(type + "").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
+        data = FirebaseDatabase.getInstance().getReference(date).child("requested").child(id);
         data.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

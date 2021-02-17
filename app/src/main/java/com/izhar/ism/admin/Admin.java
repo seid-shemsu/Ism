@@ -31,11 +31,12 @@ import java.util.Date;
 public class Admin extends AppCompatActivity {
     TextView pending_text, approved_text, approved_amount, requested_amount, declined_text, declined_amount, sold_amount, sold_items;
     int rTotal = 0 , aTotal = 0, dTotal = 0, sTotal = 0;
-
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         pending_text = findViewById(R.id.pending);
         approved_text = findViewById(R.id.approved);
         approved_amount = findViewById(R.id.approved_amount);
@@ -49,10 +50,10 @@ public class Admin extends AppCompatActivity {
     }
 
     private void setValues() {
-        DatabaseReference declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference request = FirebaseDatabase.getInstance().getReference().child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference approved = FirebaseDatabase.getInstance().getReference().child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference sold = FirebaseDatabase.getInstance().getReference().child("sold").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference(date).child("declined");
+        DatabaseReference request = FirebaseDatabase.getInstance().getReference(date).child("requested");
+        DatabaseReference approved = FirebaseDatabase.getInstance().getReference(date).child("approved");
+        DatabaseReference sold = FirebaseDatabase.getInstance().getReference(date).child("sold");
         request.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

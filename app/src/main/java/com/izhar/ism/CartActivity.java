@@ -33,12 +33,13 @@ public class CartActivity extends AppCompatActivity {
     CartAdapter cartAdapter;
     ArrayList<Integer> quantities;
     LottieAnimationView loader;
-
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("Cart");
         setContentView(R.layout.activity_cart);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         order = findViewById(R.id.btn_order);
         loader = findViewById(R.id.loader);
         recycle = findViewById(R.id.recycle);
@@ -69,19 +70,19 @@ public class CartActivity extends AppCompatActivity {
                 SimpleDateFormat sdp = new SimpleDateFormat("hh:mm");
                 String id = System.currentTimeMillis() + "";
                 //add to total requested orders
-                DatabaseReference ordered = FirebaseDatabase.getInstance().getReference().child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
+                DatabaseReference ordered = FirebaseDatabase.getInstance().getReference(date).child("requested");
                 ordered.child(id).setValue(new Request(foodList, id, cartAdapter.getTotal() + "", sdp.format(new Date()), name));
                 //add to cashier total requested orders
-                DatabaseReference c_ordered = FirebaseDatabase.getInstance().getReference("cashier").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
+                DatabaseReference c_ordered = FirebaseDatabase.getInstance().getReference(date).child("cashier").child("requested");
                 c_ordered.child(id).setValue(new Request(foodList, id,  cartAdapter.getTotal() + "", sdp.format(new Date()), name));
                 //add to individual requested
-                ordered = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "").child(name);
+                ordered = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("requested").child(name);
                 ordered.child(id).setValue(new Request(foodList, id,  cartAdapter.getTotal() + "", sdp.format(new Date()), name));
                 //add to individual pending order
-                ordered = FirebaseDatabase.getInstance().getReference("waiter").child("pending").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "").child(name);
+                ordered = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("pending").child(name);
                 ordered.child(id).setValue(new Request(foodList, id,  cartAdapter.getTotal() + "", sdp.format(new Date()), name));
                 //send a request to cashier
-                DatabaseReference pending = FirebaseDatabase.getInstance().getReference().child("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()) + "");
+                DatabaseReference pending = FirebaseDatabase.getInstance().getReference(date).child("cashier").child("request");
                 pending.child(id).setValue(new Request(foodList, id,  cartAdapter.getTotal() + "", sdp.format(new Date()), name)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -91,7 +92,7 @@ public class CartActivity extends AppCompatActivity {
                 });
                 String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                 String time = new SimpleDateFormat("hh:mm").format(new Date());
-                DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                DatabaseReference activity = FirebaseDatabase.getInstance().getReference(date).child("activity");
                 String activity_id = System.currentTimeMillis() + "";
                 activity.child(activity_id).setValue(new Activity("waiter", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "request", id));
 

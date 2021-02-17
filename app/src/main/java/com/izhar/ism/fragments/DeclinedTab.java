@@ -48,6 +48,7 @@ public class DeclinedTab  extends Fragment {
     LottieAnimationView loader;
     DatabaseReference data;
     SharedPreferences declined;
+    String date;
     int item;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +56,7 @@ public class DeclinedTab  extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_declined_tab, container, false);
         declined = getContext().getSharedPreferences("declined", Context.MODE_PRIVATE);
         item = declined.getInt("declined", 0);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         recycle = view.findViewById(R.id.recycle);
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         recycle.setHasFixedSize(true);
@@ -67,10 +69,10 @@ public class DeclinedTab  extends Fragment {
         SharedPreferences u_name = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         String name = u_name.getString("name", "default");
         if (user.equalsIgnoreCase("waiter")){
-            data = FirebaseDatabase.getInstance().getReference().child("waiter").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
+            data = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("declined").child(name);
         }
         else{
-            data = FirebaseDatabase.getInstance().getReference().child(user).child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+            data = FirebaseDatabase.getInstance().getReference(date).child(user).child("declined");
         }
         data.addValueEventListener(new ValueEventListener() {
             @Override

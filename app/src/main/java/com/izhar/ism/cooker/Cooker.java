@@ -32,11 +32,13 @@ public class Cooker extends AppCompatActivity {
     ViewPager view;
     PagerAdapter pagerAdapter;
     int rTotal = 0 , aTotal = 0, dTotal = 0;
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("cooker");
         setContentView(R.layout.activity_cooker);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         SharedPreferences user = getSharedPreferences("user", MODE_PRIVATE);
         pending_text = findViewById(R.id.pending);
         finished_text = findViewById(R.id.finished);
@@ -70,9 +72,9 @@ public class Cooker extends AppCompatActivity {
     }
     private void setValues() {
 
-        final DatabaseReference request = FirebaseDatabase.getInstance().getReference("cooker").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference approved = FirebaseDatabase.getInstance().getReference("cooker").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference declined = FirebaseDatabase.getInstance().getReference("cooker").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        final DatabaseReference request = FirebaseDatabase.getInstance().getReference(date).child("cooker").child("requested");
+        DatabaseReference approved = FirebaseDatabase.getInstance().getReference(date).child("cooker").child("approved");
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference(date).child("cooker").child("declined");
 
         request.addValueEventListener(new ValueEventListener() {
             @Override

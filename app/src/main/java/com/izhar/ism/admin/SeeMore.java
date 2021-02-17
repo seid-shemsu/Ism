@@ -38,7 +38,7 @@ public class SeeMore extends AppCompatActivity {
     List<Food> foods;
     TextView empty;
     String type, actor;
-
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,7 @@ public class SeeMore extends AppCompatActivity {
         loader = findViewById(R.id.loader);
         empty = findViewById(R.id.empty);
         recycler = findViewById(R.id.recycle);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(this));
         switch (actor){
@@ -66,10 +67,9 @@ public class SeeMore extends AppCompatActivity {
         }
 
     }
-
     private void getFoods() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child(type);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -96,7 +96,7 @@ public class SeeMore extends AppCompatActivity {
     private void getSold() {
         foods = new ArrayList<>();
         ApprovalAdapter adapter;
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference("sold").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("sold");
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -132,7 +132,7 @@ public class SeeMore extends AppCompatActivity {
 
     private void getWaiter() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference("waiter").child(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", ""));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("waiter").child(type).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", ""));
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -153,7 +153,7 @@ public class SeeMore extends AppCompatActivity {
 
     private void getCashier() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference("cashier").child(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("cashier").child(type);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -175,7 +175,7 @@ public class SeeMore extends AppCompatActivity {
 
     private void getCooker() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference("cooker").child(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("cooker").child(type);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

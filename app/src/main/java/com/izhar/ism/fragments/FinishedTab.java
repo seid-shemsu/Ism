@@ -51,6 +51,7 @@ public class FinishedTab extends Fragment {
     TextView not_found;
     LottieAnimationView loader;
     SharedPreferences finished;
+    String date;
     int item;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class FinishedTab extends Fragment {
         finished = getContext().getSharedPreferences("finished", Context.MODE_PRIVATE);
         item = finished.getInt("finished", 0);
         recycle = view.findViewById(R.id.recycle);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         recycle.setHasFixedSize(true);
         not_found = view.findViewById(R.id.not_found);
@@ -71,10 +73,10 @@ public class FinishedTab extends Fragment {
         SharedPreferences u_name = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         String name = u_name.getString("name", "default");
         if (user.equalsIgnoreCase("waiter")){
-            data = FirebaseDatabase.getInstance().getReference().child("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
+            data = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("approved").child(name);
         }
         else{
-            data = FirebaseDatabase.getInstance().getReference().child(user).child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+            data = FirebaseDatabase.getInstance().getReference(date).child(user).child("approved");
         }
         data.addValueEventListener(new ValueEventListener() {
             @Override

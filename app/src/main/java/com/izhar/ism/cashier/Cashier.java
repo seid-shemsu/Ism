@@ -31,11 +31,13 @@ public class Cashier extends AppCompatActivity {
     ViewPager view;
     PagerAdapter pagerAdapter;
     int rTotal = 0 , aTotal = 0, dTotal=0;
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("cashier");
         setContentView(R.layout.activity_cashier);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         SharedPreferences user = getSharedPreferences("user", MODE_PRIVATE);
         user.edit().putString("user", "cashier").apply();
         pending_text = findViewById(R.id.pending);
@@ -68,9 +70,9 @@ public class Cashier extends AppCompatActivity {
         });
     }
     private void setValues() {
-        final DatabaseReference requested = FirebaseDatabase.getInstance().getReference("cashier").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference approved = FirebaseDatabase.getInstance().getReference("cashier").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
-        DatabaseReference declined = FirebaseDatabase.getInstance().getReference("cashier").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        final DatabaseReference requested = FirebaseDatabase.getInstance().getReference(date).child("cashier").child("requested");
+        DatabaseReference approved = FirebaseDatabase.getInstance().getReference(date).child("cashier").child("approved");
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference(date).child("cashier").child("declined");
         requested.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

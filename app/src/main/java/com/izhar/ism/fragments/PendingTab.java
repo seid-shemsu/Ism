@@ -57,6 +57,7 @@ public class PendingTab extends Fragment {
     LottieAnimationView loader;
     SharedPreferences pending;
     int item;
+    String date;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -64,6 +65,7 @@ public class PendingTab extends Fragment {
         pending = getContext().getSharedPreferences("pending", Context.MODE_PRIVATE);
         item = pending.getInt("pending", 0);
         recycle = view.findViewById(R.id.recycle);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         recycle.setHasFixedSize(true);
         not_found = view.findViewById(R.id.not_found);
@@ -79,10 +81,10 @@ public class PendingTab extends Fragment {
         String name = u_name.getString("name", "default");
         String user = getContext().getSharedPreferences("user", Context.MODE_PRIVATE).getString("user", "");
         if (user.equalsIgnoreCase("waiter")){
-            data = FirebaseDatabase.getInstance().getReference().child("waiter").child("pending").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
+            data = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("pending").child(name);
         }
         else{
-            data = FirebaseDatabase.getInstance().getReference().child(user).child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+            data = FirebaseDatabase.getInstance().getReference(date).child(user).child("request");
         }
         data.addValueEventListener(new ValueEventListener() {
             @Override

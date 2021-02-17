@@ -34,11 +34,13 @@ public class Waiter extends AppCompatActivity {
     ViewPager view;
     PagerAdapter pagerAdapter;
     int rTotal = 0 , aTotal = 0, dTotal = 0;
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("waiter");
         setContentView(R.layout.activity_waiter);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         SharedPreferences user = getSharedPreferences("user", MODE_PRIVATE);
         user.edit().putString("user", "waiter").apply();
         Button new_order = findViewById(R.id.new_order);
@@ -80,9 +82,9 @@ public class Waiter extends AppCompatActivity {
     }
 
     private void setValues() {
-        final DatabaseReference request = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
-        DatabaseReference approved = FirebaseDatabase.getInstance().getReference("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
-        DatabaseReference declined = FirebaseDatabase.getInstance().getReference("waiter").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
+        final DatabaseReference request = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("requested").child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
+        DatabaseReference approved = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("approved").child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("declined").child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
         request.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
