@@ -5,12 +5,47 @@ import java.util.List;
 public class User {
     String name;
     List<Request> requested, approved, declined;
+    String total_requested, total_approved, total_declined;
+
+    public User(String name, List<Request> requested, List<Request> approved, List<Request> declined, String total_requested, String total_approved, String total_declined) {
+        this.name = name;
+        this.requested = requested;
+        this.approved = approved;
+        this.declined = declined;
+        this.total_requested = total_requested;
+        this.total_approved = total_approved;
+        this.total_declined = total_declined;
+    }
 
     public User(String name, List<Request> requested, List<Request> approved, List<Request> declined) {
         this.name = name;
         this.requested = requested;
         this.approved = approved;
         this.declined = declined;
+    }
+
+    public String getTotal_requested() {
+        return total_requested;
+    }
+
+    public void setTotal_requested(String total_requested) {
+        this.total_requested = total_requested;
+    }
+
+    public String getTotal_approved() {
+        return total_approved;
+    }
+
+    public void setTotal_approved(String total_approved) {
+        this.total_approved = total_approved;
+    }
+
+    public String getTotal_declined() {
+        return total_declined;
+    }
+
+    public void setTotal_declined(String total_declined) {
+        this.total_declined = total_declined;
     }
 
     public String getName() {

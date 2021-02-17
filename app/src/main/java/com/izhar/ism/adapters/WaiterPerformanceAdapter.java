@@ -38,7 +38,9 @@ public class WaiterPerformanceAdapter extends RecyclerView.Adapter<WaiterPerform
         holder.pending_text.setText(user.getRequested().size() +" ");
         holder.finished_text.setText(user.getApproved().size() +" ");
         holder.declined_text.setText(user.getDeclined().size() +" ");
-
+        holder.declined_amount.setText(user.getTotal_declined() + " ETB");
+        holder.approved_amount.setText(user.getTotal_approved() + " ETB");
+        holder.requested_amount.setText(user.getTotal_requested() + " ETB");
     }
 
     @Override

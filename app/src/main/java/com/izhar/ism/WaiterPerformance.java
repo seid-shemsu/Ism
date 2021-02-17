@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +30,6 @@ public class WaiterPerformance extends AppCompatActivity {
     List<String> names;
     List<User> users;
     WaiterPerformanceAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,29 +65,40 @@ public class WaiterPerformance extends AppCompatActivity {
     }
 
     private void getData(String name) {
-
-        List<Request> requested = new ArrayList<>();
+        final int[] total_requested = new int[1];
+        final int[] total_approved = new int[1];
+        final int[] total_declined = new int[1];
+        final List<Request>[] requested = new List[]{new ArrayList<>()};
         DatabaseReference request = FirebaseDatabase.getInstance().getReference("waiter").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
         request.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                    requested.add(snapshot.getValue(Request.class));
+                total_requested[0] = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    requested[0].add(snapshot.getValue(Request.class));
+                    total_requested[0] += Integer.parseInt(snapshot.child("total").getValue().toString());
+                }
                 List<Request> declined = new ArrayList<>();
                 DatabaseReference decline = FirebaseDatabase.getInstance().getReference("waiter").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
                 decline.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        total_declined[0] = 0;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                             declined.add(snapshot.getValue(Request.class));
+                            total_declined[0] += Integer.parseInt(snapshot.child("total").getValue().toString());
+                        }
                         List<Request> approved = new ArrayList<>();
                         DatabaseReference approve = FirebaseDatabase.getInstance().getReference("waiter").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(name);
                         approve.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                                total_approved[0] = 0;
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                                     approved.add(snapshot.getValue(Request.class));
-                                users.add(new User(name, requested, approved, declined));
+                                    total_approved[0] += Integer.parseInt(snapshot.child("total").getValue().toString());
+                                }
+                                users.add(new User(name, requested[0], approved, declined, total_requested[0] + "", total_approved[0] + "", total_declined[0] + ""));
                                 if (users.size() == 0)
                                     not_found.setVisibility(View.VISIBLE);
                                 loader.setVisibility(View.GONE);
@@ -111,26 +119,5 @@ public class WaiterPerformance extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-    }
-
-    private void set() {
-        if (users.size() == 0)
-            not_found.setVisibility(View.VISIBLE);
-        loader.setVisibility(View.GONE);
-        adapter = new WaiterPerformanceAdapter(this, users);
-        recycle.setAdapter(adapter);
-    }
-
-    private void getDeclined(String name) {
-        //Toast.makeText(this, declined.size() + "", Toast.LENGTH_SHORT).show();
-
-    }
-
-    private void getApproved(String name) {
-
-    }
-
-    private void getRequested(String name) {
-
     }
 }

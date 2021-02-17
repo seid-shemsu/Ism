@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.izhar.ism.adapters.CartAdapter;
+import com.izhar.ism.objects.Activity;
 import com.izhar.ism.objects.Food;
 import com.izhar.ism.objects.Request;
 import com.izhar.ism.waiter.Waiter;
@@ -88,6 +89,12 @@ public class CartActivity extends AppCompatActivity {
                         finish();
                     }
                 });
+                String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                String time = new SimpleDateFormat("hh:mm").format(new Date());
+                DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                String activity_id = System.currentTimeMillis() + "";
+                activity.child(activity_id).setValue(new Activity("waiter", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "request", id));
+
             }
 
         });

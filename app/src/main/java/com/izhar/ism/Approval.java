@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.izhar.ism.adapters.ApprovalAdapter;
 import com.izhar.ism.cashier.Cashier;
 import com.izhar.ism.cooker.Cooker;
+import com.izhar.ism.objects.Activity;
 import com.izhar.ism.objects.Food;
 import com.izhar.ism.objects.Request;
 import com.izhar.ism.waiter.Waiter;
@@ -81,6 +82,13 @@ public class Approval extends AppCompatActivity {
                 if (user.getString("user", "").equalsIgnoreCase("waiter")) {
                     SharedPreferences u_name = getSharedPreferences("user", MODE_PRIVATE);
                     String name = u_name.getString("name", "default");
+                    //add to user activities
+                    String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                    String time = new SimpleDateFormat("hh:mm").format(new Date());
+                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                    String activity_id = System.currentTimeMillis() + "";
+                    activity.child(activity_id).setValue(new Activity("waiter", date, activity_id, name, time, "decline", id));
+                    //end of user acitvity
                     cooker_requested = FirebaseDatabase.getInstance().getReference("cooker").child("requested").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     cooker_request = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     cashier_approved = FirebaseDatabase.getInstance().getReference("cashier").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
@@ -112,6 +120,13 @@ public class Approval extends AppCompatActivity {
                 }
 
                 else if (user.getString("user", "").equalsIgnoreCase("cashier")){
+                    //add to user activity
+                    String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                    String time = new SimpleDateFormat("hh:mm").format(new Date());
+                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                    String activity_id = System.currentTimeMillis() + "";
+                    activity.child(activity_id).setValue(new Activity("cashier", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "decline", id));
+                    //end of user activity
                     cashier_request = FirebaseDatabase.getInstance().getReference("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     cashier_declined = FirebaseDatabase.getInstance().getReference("cashier").child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     declined = FirebaseDatabase.getInstance().getReference().child("declined").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
@@ -137,6 +152,13 @@ public class Approval extends AppCompatActivity {
                     });
                 }
                 else {
+                    //add to user activity
+                    String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                    String time = new SimpleDateFormat("hh:mm").format(new Date());
+                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                    String activity_id = System.currentTimeMillis() + "";
+                    activity.child(activity_id).setValue(new Activity("cooker", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "decline", id));
+                    //end of user activity
                     cooker_request = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     cooker_request.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -173,6 +195,13 @@ public class Approval extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (user.getString("user", "").equalsIgnoreCase("cashier")) {
+                    //add to user activity
+                    String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                    String time = new SimpleDateFormat("hh:mm").format(new Date());
+                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                    String activity_id = System.currentTimeMillis() + "";
+                    activity.child(activity_id).setValue(new Activity("cashier", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "approval", id));
+                    //end of user activity
                     final DatabaseReference req = FirebaseDatabase.getInstance().getReference("cashier").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     final DatabaseReference app = FirebaseDatabase.getInstance().getReference("cashier").child("approved").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     final DatabaseReference pass = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
@@ -193,6 +222,13 @@ public class Approval extends AppCompatActivity {
 
                 }
                 else if (user.getString("user", "").equalsIgnoreCase("cooker")) {
+                    //add to user activity
+                    String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                    String time = new SimpleDateFormat("hh:mm").format(new Date());
+                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                    String activity_id = System.currentTimeMillis() + "";
+                    activity.child(activity_id).setValue(new Activity("cooker", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "approval", id));
+                    //end of user activity
                     final DatabaseReference req = FirebaseDatabase.getInstance().getReference("cooker").child("request").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(id);
                     req.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override

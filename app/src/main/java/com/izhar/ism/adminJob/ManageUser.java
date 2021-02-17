@@ -19,8 +19,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.izhar.ism.R;
+import com.izhar.ism.UserActivity;
 import com.izhar.ism.WaiterPerformance;
+import com.izhar.ism.objects.Activity;
 import com.izhar.ism.objects.User;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ManageUser extends AppCompatActivity {
 
@@ -60,6 +65,11 @@ public class ManageUser extends AppCompatActivity {
                 if (valid()){
                     DatabaseReference user = FirebaseDatabase.getInstance().getReference("users");
                     String id = System.currentTimeMillis() + "";
+                    String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                    String time = new SimpleDateFormat("hh:mm").format(new Date());
+                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                    String activity_id = System.currentTimeMillis() + "";
+                    activity.child(activity_id).setValue(new Activity("admin", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "add new user", id));
                     user.child(id).setValue(new User(name.getText().toString(), type.getSelectedItem().toString(), password.getText().toString(), username.getText().toString()))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -92,4 +102,9 @@ public class ManageUser extends AppCompatActivity {
             }
         });
     }
+
+    public void activity(View view) {
+        startActivity(new Intent(this, UserActivity.class));
+    }
+
 }
