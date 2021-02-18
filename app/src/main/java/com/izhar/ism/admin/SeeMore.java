@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -24,6 +25,8 @@ import com.izhar.ism.adminJob.FoodList;
 import com.izhar.ism.objects.Food;
 import com.izhar.ism.objects.Request;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,10 +42,14 @@ public class SeeMore extends AppCompatActivity {
     TextView empty;
     String type, actor;
     String date;
+    LinearLayout linear;
+    TextView total;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_more);
+        linear = findViewById(R.id.linear);
+        total = findViewById(R.id.total_price);
         type = getIntent().getExtras().getString("type");
         actor = getIntent().getExtras().getString("actor");
         loader = findViewById(R.id.loader);
@@ -96,13 +103,19 @@ public class SeeMore extends AppCompatActivity {
     private void getSold() {
         foods = new ArrayList<>();
         ApprovalAdapter adapter;
+        linear.setVisibility(View.VISIBLE);
+
         DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("sold");
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 foods.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                int total_price = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     foods.add(snapshot.getValue(Food.class));
+                    total_price += Integer.parseInt(snapshot.child("price").getValue().toString());
+                }
+                total.setText(total_price + " ETB");
                 loader.setVisibility(View.GONE);
                 if (foods.size() == 0) {
                     empty.setVisibility(View.VISIBLE);

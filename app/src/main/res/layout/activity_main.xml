@@ -9,21 +9,33 @@
     tools:context=".MainActivity">
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:hint="username"
         android:id="@+id/username"
+        android:paddingLeft="15dp"
+
         android:singleLine="true"
-        android:layout_margin="10dp"/>
+        android:background="@drawable/item_bg"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"/>
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
         android:hint="password"
         android:id="@+id/password"
         android:singleLine="true"
-        android:layout_margin="10dp"/>
+        android:layout_height="45dp"
+        android:background="@drawable/item_bg"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"/>
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:layout_margin="10dp"
+        android:textColor="#fff"
+        android:background="@drawable/btn_add"
         android:text="login"
         android:id="@+id/login"/>
     <com.airbnb.lottie.LottieAnimationView

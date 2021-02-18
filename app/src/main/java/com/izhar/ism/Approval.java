@@ -125,7 +125,7 @@ public class Approval extends AppCompatActivity {
                     //add to user activity
                     String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                     String time = new SimpleDateFormat("hh:mm").format(new Date());
-                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference(date).child("activity");
                     String activity_id = System.currentTimeMillis() + "";
                     activity.child(activity_id).setValue(new Activity("cashier", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "decline", id));
                     //end of user activity
@@ -157,7 +157,7 @@ public class Approval extends AppCompatActivity {
                     //add to user activity
                     String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                     String time = new SimpleDateFormat("hh:mm").format(new Date());
-                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference(date).child("activity");
                     String activity_id = System.currentTimeMillis() + "";
                     activity.child(activity_id).setValue(new Activity("cooker", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "decline", id));
                     //end of user activity

@@ -46,6 +46,7 @@ public class WaiterPerformance extends AppCompatActivity {
         getNames();
     }
     private void getNames() {
+
         DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("users");
         users.addValueEventListener(new ValueEventListener() {
             @Override
