@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -24,6 +25,8 @@ import com.izhar.ism.adminJob.FoodList;
 import com.izhar.ism.objects.Food;
 import com.izhar.ism.objects.Request;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,16 +41,21 @@ public class SeeMore extends AppCompatActivity {
     List<Food> foods;
     TextView empty;
     String type, actor;
-
+    String date;
+    LinearLayout linear;
+    TextView total;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_more);
+        linear = findViewById(R.id.linear);
+        total = findViewById(R.id.total_price);
         type = getIntent().getExtras().getString("type");
         actor = getIntent().getExtras().getString("actor");
         loader = findViewById(R.id.loader);
         empty = findViewById(R.id.empty);
         recycler = findViewById(R.id.recycle);
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(this));
         switch (actor){
@@ -66,10 +74,9 @@ public class SeeMore extends AppCompatActivity {
         }
 
     }
-
     private void getFoods() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child(type);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -96,13 +103,19 @@ public class SeeMore extends AppCompatActivity {
     private void getSold() {
         foods = new ArrayList<>();
         ApprovalAdapter adapter;
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference("sold").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        linear.setVisibility(View.VISIBLE);
+
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("sold");
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 foods.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                int total_price = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     foods.add(snapshot.getValue(Food.class));
+                    total_price += Integer.parseInt(snapshot.child("price").getValue().toString());
+                }
+                total.setText(total_price + " ETB");
                 loader.setVisibility(View.GONE);
                 if (foods.size() == 0) {
                     empty.setVisibility(View.VISIBLE);
@@ -132,7 +145,7 @@ public class SeeMore extends AppCompatActivity {
 
     private void getWaiter() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference("waiter").child(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date())).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", ""));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("waiter").child(type).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", ""));
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -153,7 +166,7 @@ public class SeeMore extends AppCompatActivity {
 
     private void getCashier() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference("cashier").child(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("cashier").child(type);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -175,7 +188,7 @@ public class SeeMore extends AppCompatActivity {
 
     private void getCooker() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference("cooker").child(type).child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("cooker").child(type);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

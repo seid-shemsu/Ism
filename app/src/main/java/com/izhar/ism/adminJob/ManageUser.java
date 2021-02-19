@@ -67,7 +67,7 @@ public class ManageUser extends AppCompatActivity {
                     String id = System.currentTimeMillis() + "";
                     String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                     String time = new SimpleDateFormat("hh:mm").format(new Date());
-                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(date);
+                    DatabaseReference activity = FirebaseDatabase.getInstance().getReference(date).child("activity");
                     String activity_id = System.currentTimeMillis() + "";
                     activity.child(activity_id).setValue(new Activity("admin", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "add new user", id));
                     user.child(id).setValue(new User(name.getText().toString(), type.getSelectedItem().toString(), password.getText().toString(), username.getText().toString()))

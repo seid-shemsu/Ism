@@ -30,6 +30,8 @@ public class UserActivity extends AppCompatActivity {
     TextView no;
     List<com.izhar.ism.objects.Activity> activities;
     UserActivityAdapter adapter;
+    String date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,9 +41,10 @@ public class UserActivity extends AppCompatActivity {
         recycle = findViewById(R.id.recycle);
         no = findViewById(R.id.not_found);
         activities = new ArrayList<>();
+        date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         recycle.setHasFixedSize(true);
         recycle.setLayoutManager(new LinearLayoutManager(this));
-        DatabaseReference activity = FirebaseDatabase.getInstance().getReference("activity").child(new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        DatabaseReference activity = FirebaseDatabase.getInstance().getReference(date).child("activity");
         activity.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
