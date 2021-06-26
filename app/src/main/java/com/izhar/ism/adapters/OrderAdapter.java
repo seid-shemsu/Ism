@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> implements Filterable {
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder>/* implements Filterable*/ {
     List<Food> foods;
     Context context;
     List<Food> allFoods;
@@ -59,7 +59,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> impl
         return foods.size();
     }
 
-    @Override
+    /*@Override
     public Filter getFilter() {
         return filter;
     }
@@ -90,6 +90,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> impl
             notifyDataSetChanged();
         }
     };
+*/
 
     class Holder extends RecyclerView.ViewHolder {
         TextView name, price;
@@ -114,8 +115,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.Holder> impl
                         add.setBackgroundResource(R.drawable.btn_add);
                         fabNumber--;
                         textView.setText(fabNumber + "");
-                        if (fabNumber == 0)
+                        if (fabNumber == 0){
                             toCart.clear();
+                            for (int i = 0; i < foods.size(); i++)
+                                toCart.add(i, null);
+                        }
                         else
                             toCart.remove(getAdapterPosition());
                     }

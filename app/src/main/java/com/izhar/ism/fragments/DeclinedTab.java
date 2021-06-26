@@ -69,10 +69,10 @@ public class DeclinedTab  extends Fragment {
         SharedPreferences u_name = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         String name = u_name.getString("name", "default");
         if (user.equalsIgnoreCase("waiter")){
-            data = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("declined").child(name);
+            data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child("declined").child(name);
         }
         else{
-            data = FirebaseDatabase.getInstance().getReference(date).child(user).child("declined");
+            data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child(user).child("declined");
         }
         data.addValueEventListener(new ValueEventListener() {
             @Override

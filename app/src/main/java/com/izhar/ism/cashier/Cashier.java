@@ -1,4 +1,5 @@
 package com.izhar.ism.cashier;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -18,13 +20,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.izhar.ism.MainActivity;
+import com.izhar.ism.OrderActivity;
 import com.izhar.ism.R;
 import com.izhar.ism.adapters.PagerAdapter;
-import com.izhar.ism.admin.Admin;
 import com.izhar.ism.admin.SeeMore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 public class Cashier extends AppCompatActivity {
     TextView pending_text, finished_text, approved_amount, requested_amount, declined_text, declined_amount;
     TabLayout tab;
@@ -68,11 +71,16 @@ public class Cashier extends AppCompatActivity {
 
             }
         });
+
+        Button new_order = findViewById(R.id.new_order);
+        new_order.setOnClickListener(v -> {
+            startActivity(new Intent(Cashier.this, OrderActivity.class));
+        });
     }
     private void setValues() {
-        final DatabaseReference requested = FirebaseDatabase.getInstance().getReference(date).child("cashier").child("requested");
-        DatabaseReference approved = FirebaseDatabase.getInstance().getReference(date).child("cashier").child("approved");
-        DatabaseReference declined = FirebaseDatabase.getInstance().getReference(date).child("cashier").child("declined");
+        final DatabaseReference requested = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("cashier").child("requested");
+        DatabaseReference approved = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("cashier").child("approved");
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("cashier").child("declined");
         requested.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

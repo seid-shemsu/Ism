@@ -81,10 +81,13 @@ public class PendingTab extends Fragment {
         String name = u_name.getString("name", "default");
         String user = getContext().getSharedPreferences("user", Context.MODE_PRIVATE).getString("user", "");
         if (user.equalsIgnoreCase("waiter")){
-            data = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("pending").child(name);
+            data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child("pending").child(name);
+        }
+        else if (user.equalsIgnoreCase("cashier")){
+            data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("cashier").child("pending");
         }
         else{
-            data = FirebaseDatabase.getInstance().getReference(date).child(user).child("request");
+            data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child(user).child("request");
         }
         data.addValueEventListener(new ValueEventListener() {
             @Override

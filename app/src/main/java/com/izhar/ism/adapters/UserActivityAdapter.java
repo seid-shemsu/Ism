@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,7 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.izhar.ism.FoodView;
 import com.izhar.ism.R;
 import com.izhar.ism.objects.Activity;
+import com.izhar.ism.objects.Food;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class UserActivityAdapter extends RecyclerView.Adapter<UserActivityAdapter.Holder> {
@@ -47,6 +52,39 @@ public class UserActivityAdapter extends RecyclerView.Adapter<UserActivityAdapte
     public int getItemCount() {
         return activities.size();
     }
+/*
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Activity> filteredItems = new ArrayList<>();
+            if (constraint.toString().isEmpty())
+                filteredItems.addAll(all_activities);
+            else {
+                for (Activity activity : all_activities) {
+                    if (activity.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filteredItems.addAll(all_activities);
+                        filteredItems.add(0, activity);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredItems;
+            return filterResults;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            activities.clear();
+            activities.addAll((Collection<? extends Activity>) results.values);
+            notifyDataSetChanged();
+        }
+    };
+*/
 
     class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView date, time, name, type, actor;

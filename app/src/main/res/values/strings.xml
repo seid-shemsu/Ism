@@ -1,10 +1,25 @@
 <resources>
     <string name="app_name">Ism</string>
     <string-array name="users">
-        <item>user role</item>
         <item>waiter</item>
         <item>cashier</item>
         <item>cooker</item>
         <item>admin</item>
+    </string-array>
+    <string-array name="user">
+        <item>all</item>
+        <item>waiter</item>
+        <item>cashier</item>
+        <item>cooker</item>
+        <item>admin</item>
+    </string-array>
+    <string-array name="type">
+        <item>all</item>
+        <item>request</item>
+        <item>decline</item>
+        <item>approve</item>
+        <item>add user</item>
+        <item>add food</item>
+        <item>remove food</item>
     </string-array>
 </resources>

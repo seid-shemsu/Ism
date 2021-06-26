@@ -72,7 +72,7 @@ public class WaiterPerformance extends AppCompatActivity {
         final int[] total_approved = new int[1];
         final int[] total_declined = new int[1];
         final List<Request>[] requested = new List[]{new ArrayList<>()};
-        DatabaseReference request = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("requested").child(name);
+        DatabaseReference request = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child("requested").child(name);
         request.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -82,7 +82,7 @@ public class WaiterPerformance extends AppCompatActivity {
                     total_requested[0] += Integer.parseInt(snapshot.child("total").getValue().toString());
                 }
                 List<Request> declined = new ArrayList<>();
-                DatabaseReference decline = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("declined").child(name);
+                DatabaseReference decline = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child("declined").child(name);
                 decline.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -92,7 +92,7 @@ public class WaiterPerformance extends AppCompatActivity {
                             total_declined[0] += Integer.parseInt(snapshot.child("total").getValue().toString());
                         }
                         List<Request> approved = new ArrayList<>();
-                        DatabaseReference approve = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("approved").child(name);
+                        DatabaseReference approve = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child("approved").child(name);
                         approve.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

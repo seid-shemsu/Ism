@@ -43,20 +43,12 @@ public class Waiter extends AppCompatActivity {
         date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         SharedPreferences user = getSharedPreferences("user", MODE_PRIVATE);
         user.edit().putString("user", "waiter").apply();
-        Button new_order = findViewById(R.id.new_order);
         pending_text = findViewById(R.id.pending);
         finished_text = findViewById(R.id.finished);
         approved_amount = findViewById(R.id.approved_amount);
         requested_amount = findViewById(R.id.requested_amount);
         declined_text = findViewById(R.id.declined);
         declined_amount = findViewById(R.id.declined_amount);
-        new_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Waiter.this, OrderActivity.class));
-                finish();
-            }
-        });
         setValues();
         tab = findViewById(R.id.tab);
         view = findViewById(R.id.viewpager);
@@ -82,9 +74,9 @@ public class Waiter extends AppCompatActivity {
     }
 
     private void setValues() {
-        final DatabaseReference request = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("requested").child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
-        DatabaseReference approved = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("approved").child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
-        DatabaseReference declined = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("declined").child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
+        final DatabaseReference request = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child("requested").child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
+        DatabaseReference approved = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child("approved").child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child("declined").child(getSharedPreferences("user", MODE_PRIVATE).getString("name", "default"));
         request.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -163,6 +155,7 @@ public class Waiter extends AppCompatActivity {
                 .putExtra("actor", "waiter")
                 .putExtra("type", "declined"));
     }
+
     @Override
     public boolean onCreatePanelMenu(int featureId, @NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);

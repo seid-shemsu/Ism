@@ -48,7 +48,7 @@ public class AddFood extends AppCompatActivity {
                 //add to user activity
                 String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                 String time = new SimpleDateFormat("hh:mm").format(new Date());
-                DatabaseReference activity = FirebaseDatabase.getInstance().getReference(date).child("activity");
+                DatabaseReference activity = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("activity");
                 String activity_id = System.currentTimeMillis() + "";
                 activity.child(activity_id).setValue(new Activity("admin", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "add food", id + ""));
                 //end of user activity

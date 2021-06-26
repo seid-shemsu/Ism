@@ -146,6 +146,23 @@
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="10dp"
+        android:id="@+id/card"
+        app:cardElevation="10dp">
+
+        <Button
+            android:id="@+id/new_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:text="new order"
+            android:textColor="@color/black"/>
+    </androidx.cardview.widget.CardView>
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
