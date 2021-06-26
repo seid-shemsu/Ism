@@ -54,7 +54,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    if (snapshot.child("username").getValue().toString().equalsIgnoreCase(username.getText().toString()) && snapshot.child("password").getValue().toString().equalsIgnoreCase(password.getText().toString())){
+                    if (!snapshot.child("username").getValue().toString().equalsIgnoreCase(username.getText().toString()) || !snapshot.child("password").getValue().toString().equalsIgnoreCase(password.getText().toString())){
+                        loader.setVisibility(View.GONE);
+                        login.setVisibility(View.VISIBLE);
+                    }
+                    else{
                         SharedPreferences user = getSharedPreferences("user", MODE_PRIVATE);
                         user.edit().putString("user", snapshot.child("type").getValue().toString()).apply();
                         user.edit().putString("name", snapshot.child("name").getValue().toString()).apply();

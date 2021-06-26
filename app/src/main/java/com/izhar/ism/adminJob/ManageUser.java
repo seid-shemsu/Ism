@@ -14,10 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.izhar.ism.R;
@@ -27,8 +27,6 @@ import com.izhar.ism.objects.Activity;
 import com.izhar.ism.objects.User;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 public class ManageUser extends AppCompatActivity {
@@ -50,6 +48,7 @@ public class ManageUser extends AppCompatActivity {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.add_new_waiter);
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -57,7 +56,14 @@ public class ManageUser extends AppCompatActivity {
             }
         });
         Button add = dialog.findViewById(R.id.add);
-        EditText name, username, password;
+        Button cancel = dialog.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        TextInputEditText name, username, password;
 
         name = dialog.findViewById(R.id.name);
         username = dialog.findViewById(R.id.username);
@@ -70,8 +76,11 @@ public class ManageUser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (valid()){
-                    DatabaseReference user = FirebaseDatabase.getInstance().getReference("users");
                     String id = System.currentTimeMillis() + "";
+                    DatabaseReference user = FirebaseDatabase.getInstance().getReference("users");
+                    DatabaseReference waiter = FirebaseDatabase.getInstance().getReference("waiter");
+                    if (type.getText().toString().equalsIgnoreCase("waiter"))
+                        waiter.child(id).setValue(new User(name.getText().toString(), type.getText().toString(), password.getText().toString(), username.getText().toString()));
                     String date  = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                     String time = new SimpleDateFormat("hh:mm").format(new Date());
                     DatabaseReference activity = FirebaseDatabase.getInstance().getReference(date).child("activity");

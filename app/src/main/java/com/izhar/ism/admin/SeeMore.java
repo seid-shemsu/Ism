@@ -76,7 +76,7 @@ public class SeeMore extends AppCompatActivity {
     }
     private void getFoods() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child(type);
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child(type);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -105,7 +105,7 @@ public class SeeMore extends AppCompatActivity {
         ApprovalAdapter adapter;
         linear.setVisibility(View.VISIBLE);
 
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("sold");
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("sold");
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -145,7 +145,7 @@ public class SeeMore extends AppCompatActivity {
 
     private void getWaiter() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("waiter").child(type).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", ""));
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child(type).child(getSharedPreferences("user", MODE_PRIVATE).getString("name", ""));
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -166,7 +166,7 @@ public class SeeMore extends AppCompatActivity {
 
     private void getCashier() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("cashier").child(type);
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("cashier").child(type);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -188,7 +188,7 @@ public class SeeMore extends AppCompatActivity {
 
     private void getCooker() {
         requests = new ArrayList<>();
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference(date).child("cooker").child(type);
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("cooker").child(type);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

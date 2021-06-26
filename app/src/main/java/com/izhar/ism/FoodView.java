@@ -53,7 +53,7 @@ public class FoodView extends AppCompatActivity {
 
     private void getData() {
         //Toast.makeText(this, type + "\n" + id, Toast.LENGTH_SHORT).show();
-        data = FirebaseDatabase.getInstance().getReference(date).child("requested").child(id);
+        data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("requested").child(id);
         data.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

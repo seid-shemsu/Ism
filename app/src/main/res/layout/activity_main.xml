@@ -1,71 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".MainActivity">
-    <!--<EditText
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:hint="username"
-        android:id="@+id/username"
-        android:paddingLeft="15dp"
-        android:singleLine="true"
-        android:background="@drawable/item_bg"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="10dp"/>-->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="username"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="10dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/username"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="password"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="10dp"
-        app:passwordToggleEnabled="true"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:id="@+id/password" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_margin="10dp"
-        android:textColor="#fff"
-        android:background="@drawable/btn_add"
-        android:text="login"
-        android:id="@+id/login"/>
     <com.airbnb.lottie.LottieAnimationView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:lottie_rawRes="@raw/circle_loader"
-        android:layout_gravity="center_horizontal"
-        app:lottie_autoPlay="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         app:lottie_loop="true"
-        android:visibility="gone"
-        android:id="@+id/loader"/>
+        android:elevation="5dp"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/login"/>
+    <LinearLayout
+        android:elevation="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:background="@drawable/bottom_layout"
+        android:layout_marginTop="250dp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
 
-</LinearLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/username"
+                android:singleLine="true"
+                android:layout_marginHorizontal="25dp"
+                android:background="@drawable/round_edittext"
+                android:backgroundTint="@color/white"
+                android:hint="username"
+                android:layout_marginVertical="5dp"
+                android:paddingLeft="15dp"
+                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPassword"
+                android:layout_marginHorizontal="25dp"
+                android:background="@drawable/round_edittext"
+                android:backgroundTint="@color/white"
+                android:hint="password"
+                android:paddingLeft="15dp"
+                android:layout_marginVertical="5dp"
+                android:id="@+id/password" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:textColor="#fff"
+            android:background="@drawable/round_button"
+            android:text="login"
+            android:id="@+id/login"/>
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:lottie_rawRes="@raw/circle_loader"
+            android:layout_gravity="center_horizontal"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:visibility="gone"
+            android:id="@+id/loader"/>
+    </LinearLayout>
+</RelativeLayout>

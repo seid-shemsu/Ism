@@ -73,10 +73,10 @@ public class FinishedTab extends Fragment {
         SharedPreferences u_name = getContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         String name = u_name.getString("name", "default");
         if (user.equalsIgnoreCase("waiter")){
-            data = FirebaseDatabase.getInstance().getReference(date).child("waiter").child("approved").child(name);
+            data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("waiter").child("approved").child(name);
         }
         else{
-            data = FirebaseDatabase.getInstance().getReference(date).child(user).child("approved");
+            data = FirebaseDatabase.getInstance().getReference("transaction").child(date).child(user).child("approved");
         }
         data.addValueEventListener(new ValueEventListener() {
             @Override

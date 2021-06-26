@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,12 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle("user Activities");
         setContentView(R.layout.activity_user);
+        AutoCompleteTextView user = findViewById(R.id.user_spinner);
+        ArrayAdapter<CharSequence> u_adapter = ArrayAdapter.createFromResource(this, R.array.users, R.layout.list_item);
+        user.setAdapter(u_adapter);
+        AutoCompleteTextView type = findViewById(R.id.type_spinner);
+        ArrayAdapter<CharSequence> t_adapter = ArrayAdapter.createFromResource(this, R.array.users, R.layout.list_item);
+        type.setAdapter(t_adapter);
         loader = findViewById(R.id.loader);
         recycle = findViewById(R.id.recycle);
         no = findViewById(R.id.not_found);
@@ -44,7 +52,7 @@ public class UserActivity extends AppCompatActivity {
         date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         recycle.setHasFixedSize(true);
         recycle.setLayoutManager(new LinearLayoutManager(this));
-        DatabaseReference activity = FirebaseDatabase.getInstance().getReference(date).child("activity");
+        DatabaseReference activity = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("activity");
         activity.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -65,5 +73,8 @@ public class UserActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void update(String user, String type){
+
     }
 }

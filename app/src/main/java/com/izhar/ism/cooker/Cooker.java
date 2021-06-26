@@ -72,9 +72,9 @@ public class Cooker extends AppCompatActivity {
     }
     private void setValues() {
 
-        final DatabaseReference request = FirebaseDatabase.getInstance().getReference(date).child("cooker").child("requested");
-        DatabaseReference approved = FirebaseDatabase.getInstance().getReference(date).child("cooker").child("approved");
-        DatabaseReference declined = FirebaseDatabase.getInstance().getReference(date).child("cooker").child("declined");
+        final DatabaseReference request = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("cooker").child("requested");
+        DatabaseReference approved = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("cooker").child("approved");
+        DatabaseReference declined = FirebaseDatabase.getInstance().getReference("transaction").child(date).child("cooker").child("declined");
 
         request.addValueEventListener(new ValueEventListener() {
             @Override

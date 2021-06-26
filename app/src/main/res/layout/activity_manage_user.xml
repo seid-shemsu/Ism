@@ -22,6 +22,7 @@
             android:onClick="add_waiter"
             android:background="@android:color/transparent"
             android:text="add new user"
+            android:textColor="@color/black"
             android:id="@+id/add_waiter"/>
     </androidx.cardview.widget.CardView>
 
@@ -43,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
+                android:textColor="@color/black"
                 android:onClick="waiter_performance"
                 android:background="@android:color/transparent"
                 android:text="waiter performance"
@@ -63,6 +65,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:onClick="activity"
+                android:textColor="@color/black"
                 android:background="@android:color/transparent"
                 android:text="users activity"
                 android:id="@+id/activity"/>

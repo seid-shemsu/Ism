@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.izhar.ism">
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Ism">
-        <activity android:name=".UserActivity"></activity>
-        <activity android:name=".WaiterPerformance" />
-        <activity android:name=".FoodView" />
-        <activity android:name=".admin.SeeMore" />
-        <activity android:name=".adminJob.FoodList" />
+        android:theme="@style/Theme.MaterialComponents.Light">
+        <activity android:name=".UserActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"/>
+        <activity android:name=".WaiterPerformance"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
+        <activity android:name=".FoodView"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
+        <activity android:name=".admin.SeeMore"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"/>
+        <activity android:name=".adminJob.FoodList"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
         <activity android:name=".adminJob.ManageUser"
-            android:theme="@style/Theme.MaterialComponents.Light"/>
-        <activity android:name=".adminJob.AddFood" />
-        <activity android:name=".Approval" />
-        <activity android:name=".OrderActivity" />
-        <activity android:name=".CartActivity" />
-        <activity android:name=".admin.Admin" />
-        <activity android:name=".cooker.Cooker" />
-        <activity android:name=".waiter.Waiter" />
-        <activity android:name=".cashier.Cashier" />
-        <activity android:name=".MainActivity"
-            android:theme="@style/Theme.MaterialComponents.Light">
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"/>
+        <activity android:name=".adminJob.AddFood"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
+        <activity android:name=".Approval"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"/>
+        <activity android:name=".OrderActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"/>
+        <activity android:name=".CartActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"/>
+        <activity android:name=".admin.Admin"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".cooker.Cooker"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"/>
+        <activity android:name=".waiter.Waiter"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
+        <activity android:name=".cashier.Cashier"
+            android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar" />
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
+        </activity>
     </application>
-
 </manifest>

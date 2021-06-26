@@ -2,15 +2,12 @@ package com.izhar.ism;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,7 +39,6 @@ public class OrderActivity extends AppCompatActivity {
         recycler = findViewById(R.id.recycle);
         recycler.setHasFixedSize(true);
         recycler.setLayoutManager(new LinearLayoutManager(this));
-
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +48,6 @@ public class OrderActivity extends AppCompatActivity {
                 args.putSerializable("foods", (Serializable) orderAdapter.toCart);
                 intent.putExtra("bundle", args);
                 startActivity(intent);
-                finish();
             }
         });
         number = findViewById(R.id.fab_number);
