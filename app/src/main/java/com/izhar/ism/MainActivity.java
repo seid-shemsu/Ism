@@ -25,7 +25,7 @@ import com.izhar.ism.waiter.Waiter;
 public class MainActivity extends AppCompatActivity {
 
     Button login;
-    TextInputEditText username,password;
+    EditText username,password;
     DatabaseReference data;
     LottieAnimationView loader;
     @Override

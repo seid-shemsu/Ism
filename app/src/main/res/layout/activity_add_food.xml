@@ -6,38 +6,41 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:hint="food name"
-        android:paddingLeft="15dp"
-        android:id="@+id/name"
-        android:singleLine="true"
-        android:layout_height="45dp"
-        android:background="@drawable/item_bg"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="15dp"/>
-
-    <EditText
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="name"
+        android:layout_margin="5dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:paddingLeft="15dp"
+            android:id="@+id/name"
+            android:singleLine="true"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:singleLine="true"
-        android:layout_height="45dp"
-        android:background="@drawable/item_bg"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="10dp"
-        android:paddingLeft="15dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="price"
-        android:id="@+id/price"
-        android:inputType="number"/>
+        android:layout_margin="5dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:singleLine="true"
+            android:layout_height="wrap_content"
+            android:id="@+id/price"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
     <Button
         android:layout_width="150dp"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:textColor="#fff"
-        android:background="@drawable/btn_add"
+        android:background="@drawable/round_button"
         android:layout_gravity="center"
         android:text="add"
         android:id="@+id/add"/>

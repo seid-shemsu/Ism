@@ -35,7 +35,11 @@ public class FoodViewAdapter extends RecyclerView.Adapter<FoodViewAdapter.Holder
         Food food = foods.get(position);
         holder.name.setText(food.getName());
         holder.amount.setText(food.getQuantity());
-        holder.price.setText(food.getPrice() + " ETB");
+        //holder.price.setText(food.getPrice() + " ETB");
+
+        int price = Integer.parseInt(food.getPrice());
+        int amount = Integer.parseInt(food.getQuantity());
+        holder.price.setText((price * amount) + " ETB");
     }
 
     @Override

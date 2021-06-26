@@ -44,7 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Admin extends AppCompatActivity {
-    TextView pending_text, approved_text, approved_amount, requested_amount, declined_text, declined_amount/*, sold_amount, sold_items*/;
+    TextView pending_text, approved_text /*approved_amount*/ /*requested_amount*/, declined_text/*, declined_amount, sold_amount, sold_items*/;
     int rTotal = 0 , aTotal = 0, dTotal = 0, sTotal = 0;
     String date;
     @Override
@@ -53,11 +53,11 @@ public class Admin extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
         date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
         pending_text = findViewById(R.id.pending);
-        approved_text = findViewById(R.id.approved);
+        approved_text = findViewById(R.id.approved);/*
         approved_amount = findViewById(R.id.approved_amount);
-        requested_amount = findViewById(R.id.requested_amount);
+        requested_amount = findViewById(R.id.requested_amount);*/
         declined_text = findViewById(R.id.declined);
-        declined_amount = findViewById(R.id.declined_amount);
+//        declined_amount = findViewById(R.id.declined_amount);
 //        sold_amount = findViewById(R.id.sold_amount);
 //        sold_items = findViewById(R.id.sold_items);
         setValues();
@@ -77,7 +77,7 @@ public class Admin extends AppCompatActivity {
                     rTotal = 0 ;
                     for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         rTotal += Integer.parseInt(snapshot.child("total").getValue().toString());
-                    requested_amount.setText(rTotal + " ETB");
+                    //requested_amount.setText(rTotal + " ETB");
                 }
                 else
                     pending_text.setText("0");
@@ -96,7 +96,7 @@ public class Admin extends AppCompatActivity {
                     approved_text.setText(dataSnapshot.getChildrenCount() + "");
                     for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         aTotal += Integer.parseInt(snapshot.child("total").getValue().toString());
-                    approved_amount.setText(aTotal + " ETB");
+                    //approved_amount.setText(aTotal + " ETB");
                 }
 
                 else
@@ -116,7 +116,7 @@ public class Admin extends AppCompatActivity {
                     declined_text.setText(dataSnapshot.getChildrenCount() + "");
                     for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         dTotal += Integer.parseInt(snapshot.child("total").getValue().toString());
-                    declined_amount.setText(dTotal + " ETB");
+                    //declined_amount.setText(dTotal + " ETB");
                 }
                 else
                     declined_text.setText("0");
@@ -142,7 +142,6 @@ public class Admin extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
@@ -164,6 +163,7 @@ public class Admin extends AppCompatActivity {
                 .putExtra("actor", "admin")
                 .putExtra("type", "declined"));
     }
+
     public void approved(View view) {
         startActivity(new Intent(this, SeeMore.class)
                 .putExtra("actor", "admin")
