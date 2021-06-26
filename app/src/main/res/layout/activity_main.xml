@@ -7,29 +7,49 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
-    <EditText
+    <!--<EditText
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:hint="username"
         android:id="@+id/username"
         android:paddingLeft="15dp"
-
         android:singleLine="true"
         android:background="@drawable/item_bg"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="10dp"/>
-    <EditText
+        android:layout_marginBottom="10dp"/>-->
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:paddingLeft="15dp"
-        android:hint="password"
-        android:id="@+id/password"
-        android:singleLine="true"
-        android:layout_height="45dp"
-        android:background="@drawable/item_bg"
+        android:layout_height="wrap_content"
+        android:hint="username"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/username"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="password"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="10dp"
+        app:passwordToggleEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:id="@+id/password" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:layout_width="150dp"
         android:layout_height="45dp"

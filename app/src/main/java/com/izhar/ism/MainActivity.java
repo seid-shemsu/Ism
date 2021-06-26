@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +25,7 @@ import com.izhar.ism.waiter.Waiter;
 public class MainActivity extends AppCompatActivity {
 
     Button login;
-    EditText username, password;
+    TextInputEditText username,password;
     DatabaseReference data;
     LottieAnimationView loader;
     @Override

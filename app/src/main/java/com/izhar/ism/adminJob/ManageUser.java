@@ -10,6 +10,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -25,6 +27,8 @@ import com.izhar.ism.objects.Activity;
 import com.izhar.ism.objects.User;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class ManageUser extends AppCompatActivity {
@@ -54,10 +58,13 @@ public class ManageUser extends AppCompatActivity {
         });
         Button add = dialog.findViewById(R.id.add);
         EditText name, username, password;
+
         name = dialog.findViewById(R.id.name);
         username = dialog.findViewById(R.id.username);
         password = dialog.findViewById(R.id.password);
-        Spinner type = dialog.findViewById(R.id.spinner);
+        AutoCompleteTextView type = dialog.findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.users, R.layout.list_item);
+        type.setAdapter(adapter);
         dialog.show();
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +77,7 @@ public class ManageUser extends AppCompatActivity {
                     DatabaseReference activity = FirebaseDatabase.getInstance().getReference(date).child("activity");
                     String activity_id = System.currentTimeMillis() + "";
                     activity.child(activity_id).setValue(new Activity("admin", date, activity_id, getSharedPreferences("user", MODE_PRIVATE).getString("name", "unknown"), time, "add new user", id));
-                    user.child(id).setValue(new User(name.getText().toString(), type.getSelectedItem().toString(), password.getText().toString(), username.getText().toString()))
+                    user.child(id).setValue(new User(name.getText().toString(), type.getText().toString(), password.getText().toString(), username.getText().toString()))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -94,7 +101,7 @@ public class ManageUser extends AppCompatActivity {
                     password.setError("password required");
                     return false;
                 }
-                else if (type.getSelectedItemPosition() == 0){
+                else if (type.getText().toString().length() == 0){
                     Toast.makeText(ManageUser.this, "select user role", Toast.LENGTH_SHORT).show();
                     return false;
                 }

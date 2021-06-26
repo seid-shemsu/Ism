@@ -14,7 +14,8 @@
         <activity android:name=".FoodView" />
         <activity android:name=".admin.SeeMore" />
         <activity android:name=".adminJob.FoodList" />
-        <activity android:name=".adminJob.ManageUser" />
+        <activity android:name=".adminJob.ManageUser"
+            android:theme="@style/Theme.MaterialComponents.Light"/>
         <activity android:name=".adminJob.AddFood" />
         <activity android:name=".Approval" />
         <activity android:name=".OrderActivity" />
@@ -23,7 +24,8 @@
         <activity android:name=".cooker.Cooker" />
         <activity android:name=".waiter.Waiter" />
         <activity android:name=".cashier.Cashier" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.MaterialComponents.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
